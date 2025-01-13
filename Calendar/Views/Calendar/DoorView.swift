@@ -18,7 +18,7 @@ struct DoorView: View {
     var body: some View {
         ZStack {
             if door.isOpened {
-                // Display the opened door (yellow rectangle)
+                
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 70, height: 70)
                     .foregroundColor(.yellow)
@@ -31,9 +31,9 @@ struct DoorView: View {
                         // Show the saved image and quote
                         showImageOverlay = true
                     }
-                    .fullScreenCover(isPresented: $showImageOverlay) {
-                        // Full-screen view to show the saved image and quote
+                    .sheet(isPresented: $showImageOverlay) {
                         ZStack {
+                            // Background: Image or Placeholder
                             if let imageData = door.image, let image = UIImage(data: imageData) {
                                 Image(uiImage: image)
                                     .resizable()
@@ -42,6 +42,8 @@ struct DoorView: View {
                             } else {
                                 Color.black.edgesIgnoringSafeArea(.all)
                             }
+
+                            // Overlay: Quote Display
                             VStack {
                                 Spacer()
                                 Text(door.quote ?? "No Quote Yet")
@@ -57,35 +59,27 @@ struct DoorView: View {
                                     )
                                     .padding(.bottom, 40)
                             }
-                            // Close button for full-screen cover
-                            VStack {
-                                HStack {
-                                    Button(action: {
-                                        showImageOverlay = false
-                                    }) {
-                                        Image(systemName: "xmark.circle.fill")
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                            .foregroundColor(.red)
-                                            .background(.black)
-                                        
-                                            .padding()
-                                    }
-                                    Spacer()
-                                }
-                                Spacer()
-                            }
                         }
+                        .presentationDetents([.large]) // Optional: control the sheet height
+                        .presentationDragIndicator(.visible)   // Show a drag indicator at the top of the sheet
                     }
+
+
+
             } else {
                 // Display the unopened door (green rectangle)
                 RoundedRectangle(cornerRadius: 10, style: .circular)
-                    .frame(width: 70, height: 70)
+                    .frame(width: 80, height: 80)
                     .foregroundColor(canOpen ? .green : .gray)
                     .overlay(
-                        Text("\(door.number)")
-                            .font(.title)
-                            .foregroundColor(.white)
+                        VStack {
+                            Text("\(door.number)")
+                                .font(.largeTitle)
+                                .foregroundColor(.white)
+                            Text(canOpen ? "🔓" : "🔓")
+                                .font(.largeTitle)
+                        }
+                     
                     )
                     .onTapGesture {
                         if canOpen {

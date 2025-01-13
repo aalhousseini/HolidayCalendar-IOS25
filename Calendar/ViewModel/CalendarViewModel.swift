@@ -29,26 +29,18 @@ class CalendarViewModel: ObservableObject {
            }
        }
     
-    func createCalendar (name:String, totalDoors:Int, startDate: Date,challenges: [Challenge]){
-        let newDoors = (0..<totalDoors).map {index in
-            let creationDate = calendar.date(byAdding: .day, value: index, to: startDate) ?? Date()
-            return  Door(number: index + 1,
-                            date: creationDate,
-                            isOpened: false,
-                            challenge: challenges.randomElement())
-            
-        }
-        let newCalendar = Calendars(name:name, startDate:startDate, doors: newDoors)
+    func createCalendar (name:String, doors:[Door], startDate: Date,challenges: [Challenge]){
+        let newCalendar = Calendars(name:name, startDate:startDate, doors: doors)
         modelContext.insert(newCalendar)
         do {
             try modelContext.save()
-            print("Doors successfully saved.")
+            print("Calendar successfully saved.")
         } catch {
             print("Error saving doors: \(error)")
         }
     }
 
-    func createDoors(totalDoors: Int, startDate: Date, challenges: [Challenge]) {
+    func createDoors(totalDoors: Int, startDate: Date, challenges: [Challenge]) -> [Door] {
         doors = (0..<totalDoors).map { index in
             let creationDate = calendar.date(byAdding: .day, value: index, to: startDate) ?? Date()
             let door = Door(
@@ -67,6 +59,7 @@ class CalendarViewModel: ObservableObject {
         } catch {
             print("Error saving doors: \(error)")
         }
+        return doors
     }
 
     func fetchDoors() {

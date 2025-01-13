@@ -19,7 +19,7 @@ struct CalendarView: View {
   @State private var firstTime = false
   @State private var selectedTab = 0
   @State var calendarName: String = ""
-    @State private var selectedCalendar: Calendar? = nil
+  @State private var selectedCalendar: Calendar? = nil
   @State private var numberOfDoors: Int = 1
   @StateObject private var viewModel = CalendarViewModel()
   @Environment(\.modelContext) private var modelContext
@@ -242,37 +242,37 @@ struct CalendarView: View {
                   }
               }
               Spacer().frame(height: 50)
-              Button(action: {
-                  viewModel.createDoors(
-                    totalDoors: numberOfDoors,
-                    startDate: Date(),
-                    challenges: challenges
-                  )
-//                  viewModel.createCalendar(
-//                    name: "Calendar \(numberOfDoors)",
-//                    totalDoors: numberOfDoors,
-//                    startDate: Date(),
-//                    challenges: challenges)
-                  DispatchQueue.main.asyncAfter(deadline: .now()) {
-                          withAnimation {
-                                  selectedTab = 7
-                                      }
-                                  }
-                  
-              }) {
-                Text("Create Calendar")
-                  .font(.custom("HelveticaNeue", size: 34))
-                  .frame(width: 280, height: 70)
-                  .background(
-                    RoundedRectangle(cornerRadius: 10)
-                      .fill(Color.blue)
-                  )
-                  .foregroundColor(.white)
-                  .padding()
+                Button(action: {
+                    Task {
+                        let doors = viewModel.createDoors(
+                            totalDoors: numberOfDoors,
+                            startDate: Date(),
+                            challenges: challenges
+                        )
+                        await MainActor.run {
+                            viewModel.createCalendar(
+                                name: calendarName,
+                                doors: doors,
+                                startDate: Date(),
+                                challenges: challenges
+                            )
+                            selectedTab = 7 // Move to next tab after saving
+                        }
+                    }
+                }) {
+                    Text("Create Calendar")
+                        .font(.custom("HelveticaNeue", size: 34))
+                        .frame(width: 280, height: 70)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.blue)
+                        )
+                        .foregroundColor(.white)
+                        .padding()
+                }
+
               }.buttonStyle(PlainButtonStyle())
             }
-
-          }
         } .tag(6)
         ZStack {
           VStack {
@@ -310,7 +310,7 @@ struct CalendarView: View {
 //                     print("No doors found")
 //                 }
         }
-      
+       
       
 
     }
@@ -320,6 +320,7 @@ struct CalendarView: View {
 
   }
 }
+
 
 #Preview {
   CalendarView()

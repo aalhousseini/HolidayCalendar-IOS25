@@ -8,8 +8,9 @@ struct ContentEditorView: View {
     @State private var selectedImage: UIImage? = nil // State to hold the selected image
     @State private var selectedPhotoPickerItem: PhotosPickerItem? = nil // Photo picker item
     @State private var showTextEditor: Bool = false // Toggles TextEditor visibility
-    @State private var showInfo: Bool = false // Toggles showing saved Text
+   // @State private var showInfo: Bool = false // Toggles showing saved Text
     @State private var navigateToDetailView: Bool = false // Toggles navigation to the detailed view
+    @AppStorage("showInfo")  var showInfo = false
     var onSave: (UIImage?, String) -> Void // Callback to save data
 
        init(initialQuote: String, initialImage: UIImage?, onSave: @escaping (UIImage?, String) -> Void) {
@@ -169,7 +170,7 @@ struct ContentEditorView: View {
                 
                 // Navigation to DetailView
                 NavigationLink(
-                    destination: DetailView(image: selectedImage, quote: quote),
+                    destination: DetailView(image: selectedImage, quote: quote,showInfo: showInfo),
                     isActive: $navigateToDetailView
                 ) {
                     EmptyView()
@@ -196,7 +197,7 @@ struct ContentEditorView: View {
  struct DetailView: View {
     var image: UIImage?
     var quote: String
-
+     @AppStorage("showInfo")  var showInfo = false
     var body: some View {
         ZStack {
             // Full-screen image
@@ -231,7 +232,7 @@ struct ContentEditorView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
                     // Back action
-                 //   showInfo = false
+                   showInfo = false
                 }) {
                     Image(systemName: "arrow.left")
                         .foregroundColor(.white)
