@@ -14,7 +14,8 @@ struct CalendarApp: App {
         let schema = Schema([
             DoorEntry.self,
             User.self,
-            Door.self
+            Door.self,
+            Calendars.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

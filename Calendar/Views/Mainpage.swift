@@ -38,11 +38,11 @@ struct Mainpage: View {
                        Text("Messages")
                    }
                
-               Profile()
-                   .tabItem {
-                       Image(systemName: "person.circle")
-                       Text("Profile")
-                   }
+//               Profile()
+//                   .tabItem {
+//                       Image(systemName: "person.circle")
+//                       Text("Profile")
+//                   }
            }.preferredColorScheme(.dark)
         }
     }

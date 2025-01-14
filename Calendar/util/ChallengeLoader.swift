@@ -8,7 +8,7 @@
 import Foundation
 
 struct ChallengeLoader {
-    static func loadChallenge()  -> [Challenge] {
+    static func loadChallenges() -> [Challenge] {
         guard let url = Bundle.main.url(forResource: "challenges", withExtension: "json") else {
             fatalError("Could not find challenges.json")
         }
@@ -21,5 +21,10 @@ struct ChallengeLoader {
             print("Error decoding challenges: \(error)")
             return []
         }
+    }
+    
+    static func loadRandomChallenge() -> Challenge? {
+        let challenges = loadChallenges()
+        return challenges.randomElement()
     }
 }

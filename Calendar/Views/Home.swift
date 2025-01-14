@@ -11,7 +11,18 @@ import PhotosUI
 struct Home: View {
     @AppStorage("nameStorage") var nameStorage : String = ""
     @AppStorage("isLoggedIn")  var isLoggedIn = false
+    @StateObject private var viewModel = CalendarViewModel()
+    @State private var timeLeft: String? = nil
     let date = dateLocal()
+    
+   private  func updateTimeLeft() {
+        timeLeft = viewModel.timeUntilNextDoor() // Initial calculation
+        
+        // Optional: Update every second
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            timeLeft = viewModel.timeUntilNextDoor()
+        }
+    }
     
     var body: some View {
         
@@ -20,13 +31,13 @@ struct Home: View {
                 //Welcome $name of the user
                 VStack (alignment: .leading) {
                     
-                        Text("Welcome back")
-                            .font(.custom("Georgia", size: 35))
-                            
-                        Text("\(nameStorage)")
-                            .font(.custom("Georgia", size: 35))
+                    Text("Welcome back")
+                        .font(.custom("Georgia", size: 35))
                     
-                   
+                    Text("\(nameStorage)")
+                        .font(.custom("Georgia", size: 35))
+                    
+                    
                     
                     // calendar countdown until next door can be opened
                     
@@ -42,19 +53,19 @@ struct Home: View {
                     
                     NavigationLink(destination: CalendarView()) {
                         Text("Go to calendar")
-                        .font(.custom("Georgia", size: 15))
+                            .font(.custom("Georgia", size: 15))
                         Image(systemName: "arrow.right")
                     }
-//                    Button (action : {
-//                        CalendarView()
-//                    }) {
-//                        Text("Go to calendar")
-//                        .font(.custom("Georgia", size: 15))
-//                        Image(systemName: "arrow.right")
-//                    }
+                    //                    Button (action : {
+                    //                        CalendarView()
+                    //                    }) {
+                    //                        Text("Go to calendar")
+                    //                        .font(.custom("Georgia", size: 15))
+                    //                        Image(systemName: "arrow.right")
+                    //                    }
                 } .padding()
                 
-
+                
                 ZStack {
                     ForEach((0..<3).reversed(), id: \.self) { index in
                         RoundedRectangle(cornerRadius: 15)
@@ -63,9 +74,12 @@ struct Home: View {
                             .shadow(color: Color.gray.opacity(0.5), radius: 8, x: 5, y: 5) // Add shadow for stacking
                             .offset(x: CGFloat(index * 10), y: CGFloat(index * 10)) // Slight offset for stacking
                     }
-                    Text("Time left to \nopen is")
+                    Text("Time left to \nopen is \(timeLeft)")
                         .font(.custom("Georgia", size: 15))
                         .foregroundColor(.white)
+                        .onAppear {
+                            updateTimeLeft()
+                        }
                 }
                 .padding()
                 
@@ -77,13 +91,13 @@ struct Home: View {
                         .foregroundColor(.red)
                 } .padding()
                 
-                  
-                    
+                
+                
                 
             }
-         
             
-//            .navigationTitle(date.getDate())
+            
+            //            .navigationTitle(date.getDate())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -91,9 +105,9 @@ struct Home: View {
                         .font(.custom("Georgia", size: 22))
                         .foregroundColor(.primary)
                 }
-                 ToolbarItem {
+                ToolbarItem {
                     Button(action: {
-                      print("bell")
+                        print("bell")
                     }) {
                         Image(systemName: "bell")
                         Circle()
@@ -104,8 +118,6 @@ struct Home: View {
                 }
             }
         }
-        
-        
     }
 }
 

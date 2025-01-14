@@ -10,12 +10,14 @@ struct ContentEditorView: View {
     @State private var showTextEditor: Bool = false // Toggles TextEditor visibility
    // @State private var showInfo: Bool = false // Toggles showing saved Text
     @State private var navigateToDetailView: Bool = false // Toggles navigation to the detailed view
+    @State private var challenge : Challenge? = nil
     @AppStorage("showInfo")  var showInfo = false
     var onSave: (UIImage?, String) -> Void // Callback to save data
 
-       init(initialQuote: String, initialImage: UIImage?, onSave: @escaping (UIImage?, String) -> Void) {
+    init(initialQuote: String, initialImage: UIImage?, challenge:Challenge? ,onSave: @escaping (UIImage?, String) -> Void) {
            self._quote = State(initialValue: initialQuote)
            self._selectedImage = State(initialValue: initialImage)
+           self._challenge = State(initialValue: ChallengeLoader.loadRandomChallenge())
            self.onSave = onSave
        }
     @Query var users: [User]
@@ -29,6 +31,17 @@ struct ContentEditorView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 20) {
+                    
+                    Text("Today's challenge is:")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color.primary)
+                        .padding(.top, 40)
+                    Text(" \(challenge?.text ?? "You are free to do whatever you want")")
+                        .font(.headline)
+                        .foregroundColor(Color.secondary)
+
                     // Title
                     Text("Capture Your Day")
                         .font(.largeTitle)
@@ -37,7 +50,7 @@ struct ContentEditorView: View {
                         .foregroundColor(Color.primary)
                         .padding(.top, 40)
                     
-                    Text("Share a Photo or Write About It!")
+                    Text("Share a Photo or Write About The challenge!")
                         .font(.headline)
                         .foregroundColor(Color.secondary)
                     
@@ -170,7 +183,7 @@ struct ContentEditorView: View {
                 
                 // Navigation to DetailView
                 NavigationLink(
-                    destination: DetailView(image: selectedImage, quote: quote,showInfo: showInfo),
+                    destination: DetailView(image: selectedImage, quote: quote, challenge: challenge,showInfo: showInfo),
                     isActive: $navigateToDetailView
                 ) {
                     EmptyView()
@@ -194,62 +207,64 @@ struct ContentEditorView: View {
     }
 }
 
- struct DetailView: View {
-    var image: UIImage?
-    var quote: String
-     @AppStorage("showInfo")  var showInfo = false
-    var body: some View {
-        ZStack {
-            // Full-screen image
-            if let image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill() // Ensures the image covers the full screen
-                    .edgesIgnoringSafeArea(.all) // Extends to edges of the screen
-            } else {
-                Color.black.edgesIgnoringSafeArea(.all) // Fallback background
-            }
-
-            // Overlay content
-            VStack {
-                Spacer() // Push text to the bottom
-                Text(quote.isEmpty ? "No Quote" : quote)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .background(
-                        Color.black.opacity(0.6) // Semi-transparent background for better contrast
-                            .cornerRadius(10)
-                            .padding(.horizontal)
-                    )
-                    .padding(.bottom, 40) // Add spacing from the bottom
-            }
-        }
-        .navigationBarBackButtonHidden(true) // Optional: Customize back button
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    // Back action
-                   showInfo = false
-                }) {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.black.opacity(0.6))
-                        .clipShape(Circle())
-                }
-            }
-        }
-    }
-}
+// struct DetailView: View {
+//    var image: UIImage?
+//    var quote: String
+//     @AppStorage("showInfo")  var showInfo = false
+//    var body: some View {
+//        ZStack {
+//            // Full-screen image
+//            if let image {
+//                Image(uiImage: image)
+//                    .resizable()
+//                    .scaledToFill() // Ensures the image covers the full screen
+//                    .edgesIgnoringSafeArea(.all) // Extends to edges of the screen
+//            } else {
+//                Color.black.edgesIgnoringSafeArea(.all) // Fallback background
+//            }
+//
+//            // Overlay content
+//            VStack {
+//                Spacer() // Push text to the bottom
+//                Text(quote.isEmpty ? "No Quote" : quote)
+//                    .font(.largeTitle)
+//                    .fontWeight(.bold)
+//                    .foregroundColor(.white)
+//                    .multilineTextAlignment(.center)
+//                    .padding()
+//                    .background(
+//                        Color.black.opacity(0.6) // Semi-transparent background for better contrast
+//                            .cornerRadius(10)
+//                            .padding(.horizontal)
+//                    )
+//                    .padding(.bottom, 40) // Add spacing from the bottom
+//            }
+//        }
+//        .navigationBarBackButtonHidden(true) // Optional: Customize back button
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarLeading) {
+//                Button(action: {
+//                    // Back action
+//                   showInfo = false
+//                }) {
+//                    Image(systemName: "arrow.left")
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .background(Color.black.opacity(0.6))
+//                        .clipShape(Circle())
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 #Preview {
     ContentEditorView(
         initialQuote: "Sample quote",             // Mock quote
-        initialImage: UIImage(named: "example"), // Replace "example" with a valid asset name, or use nil
+        initialImage: UIImage(named: "example"),
+        challenge: Challenge(id: 5, text:"run 5km"),
+        // Replace "example" with a valid asset name, or use nil
         onSave: { image, quote in
             print("Saved Image: \(String(describing: image))")
             print("Saved Quote: \(quote)")

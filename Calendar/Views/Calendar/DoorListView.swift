@@ -9,12 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct DoorListView: View {
-    @Query var doors: [DoorEntry]
+    @Query var doors: [Door]
+    @StateObject private var viewModel = CalendarViewModel()
 
     var body: some View {
+        Text("Ahmad")
         List(doors) { door in
             VStack(alignment: .leading) {
-                Text(door.quote)
+                Text("Number is \(door.number)")
                     .font(.headline)
                 
                 // If 'date' is non-optional, use it directly
@@ -22,6 +24,9 @@ struct DoorListView: View {
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
+        } .onAppear {
+         
+            viewModel.testModelContext()
         }
     }
 }
