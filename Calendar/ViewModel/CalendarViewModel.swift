@@ -8,18 +8,19 @@
 import SwiftUI
 import SwiftData
 
-
 class CalendarViewModel: ObservableObject {
-    @Published var doors: [Door] = []
+        
     private var modelContext: ModelContext
-    @Published var calendars: [CalendarModel] = []
     private let calendar = Calendar.current
+
+    @Published var doors: [Door] = []
+    @Published var calendars: [CalendarModel] = []
     @Published var challenges: [Challenge] = ChallengeLoader.loadChallenges()
     @Query private var alldoors : [Door]
     
     
     init(modelContext: ModelContext) {
-           self.modelContext = modelContext
+        self.modelContext = modelContext
         testModelContext()
        }
     
@@ -32,7 +33,6 @@ class CalendarViewModel: ObservableObject {
         }
     }
 
-    
     func fetchCalendars() {
         let fetchDescriptor = FetchDescriptor<CalendarModel>(sortBy: [SortDescriptor(\.startDate)])
         do {
@@ -43,8 +43,10 @@ class CalendarViewModel: ObservableObject {
         }
     }
     
+    /* TODO: Remove from here 
     func createCalendar(name: String, startDate: Date, doors: [Door]) {
         let newCalendar = CalendarModel(name: name, startDate: startDate, doors: doors)
+        
         for door in doors {
             door.calendar = newCalendar // Set the relationship
         }
@@ -57,6 +59,7 @@ class CalendarViewModel: ObservableObject {
             print("Error saving calendar: \(error)")
         }
     }
+     */
 
     
     func createDoors(totalDoors: Int, startDate: Date) -> [Door] {
@@ -136,6 +139,7 @@ class CalendarViewModel: ObservableObject {
             print("Error saving doors: \(error)")
         }
     }
+    
     func timeUntilNextDoor() -> String? {
         print("From timeUntilNextDoor method")
         print("Doors array: \(doors.map { "Door \(String($0.number)) - Opened: \($0.isOpened)" })")

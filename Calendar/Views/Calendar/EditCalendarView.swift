@@ -10,7 +10,9 @@ import SwiftUI
 struct EditCalendarView: View {
     @State var calendarName: String
     @State var numberOfDoors: Int
+    
     let onSave: (String, Int) -> Void
+    
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {

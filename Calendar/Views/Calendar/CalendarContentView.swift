@@ -8,14 +8,17 @@
 
 import SwiftUI
 
-
-
 struct CalendarContentView: View {
-  let calendarName: String
-  @ObservedObject var viewModel: CalendarViewModel
-  @State private var draggingDoor: Door? = nil
-  @State private var isEditing = false
-  var body: some View {
+    let calendarName: String
+    
+    @ObservedObject var viewModel: CalendarViewModel
+    
+    private var calendar: CalendarModel
+    
+    @State private var draggingDoor: Door? = nil
+    @State private var isEditing = false
+    
+    var body: some View {
     ZStack {
       VStack {
         Text(calendarName)
@@ -52,10 +55,10 @@ struct CalendarContentView: View {
       }
     }.padding()
 
-    Button(action: {
-    }) {
-      Text("Click on me")
-    }
+        Button {
+        } label: {
+            Text("Click on me")
+        }
     .navigationBarItems(trailing: Button(action: {
                 isEditing.toggle() // Show edit sheet
             }) {

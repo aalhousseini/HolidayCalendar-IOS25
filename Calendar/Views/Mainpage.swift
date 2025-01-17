@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Mainpage: View {
     @AppStorage("firstLaunch")  var firstLaunch = false
+    
     var body: some View {
         if firstLaunch {
             WelcomePage()
@@ -20,13 +21,13 @@ struct Mainpage: View {
                        Text("Home")
                    }
                
-               CalendarView()
+               CalendarListView()
                    .tabItem {
                        Image(systemName: "calendar")
                        Text("Calendar")
                    }
                
-               CalendarView2()
+               CalendarCreateView()
                    .tabItem {
                        Image(systemName: "calendar.badge.plus")
                        Text("Add")

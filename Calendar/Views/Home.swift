@@ -59,7 +59,7 @@ struct Home: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: CalendarView()) {
+                    NavigationLink(destination: CalendarCreateView()) {
                         Text("Go to calendar")
                             .font(.custom("Georgia", size: 15))
                         Image(systemName: "arrow.right")
