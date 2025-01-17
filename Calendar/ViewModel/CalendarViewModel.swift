@@ -11,19 +11,21 @@ import SwiftData
 
 class CalendarViewModel: ObservableObject {
     @Published var doors: [Door] = []
-    @Environment(\.modelContext) private var modelContext
-    @Published var calendars: [Calendars] = []
+    private var modelContext: ModelContext
+    @Published var calendars: [CalendarModel] = []
     private let calendar = Calendar.current
-    @Published var challenges: [Challenge] = []
+    @Published var challenges: [Challenge] = ChallengeLoader.loadChallenges()
+    @Query private var alldoors : [Door]
     
     
-    init() {
+    init(modelContext: ModelContext) {
+           self.modelContext = modelContext
         testModelContext()
-    }
+       }
     
     func testModelContext() {
         do {
-            let testFetch = try modelContext.fetch(FetchDescriptor<Calendars>())
+            let testFetch = try modelContext.fetch(FetchDescriptor<CalendarModel>())
             print("Test fetch result: \(testFetch.count)")
         } catch {
             print("Error testing modelContext: \(error)")
@@ -32,7 +34,7 @@ class CalendarViewModel: ObservableObject {
 
     
     func fetchCalendars() {
-        let fetchDescriptor = FetchDescriptor<Calendars>(sortBy: [SortDescriptor(\.startDate)])
+        let fetchDescriptor = FetchDescriptor<CalendarModel>(sortBy: [SortDescriptor(\.startDate)])
         do {
             calendars = try modelContext.fetch(fetchDescriptor)
             print("Fetched calendars: \(calendars.count)")
@@ -41,28 +43,23 @@ class CalendarViewModel: ObservableObject {
         }
     }
     
-//    func createCalendar (name:String, doors:[Door], startDate: Date,challenges: [Challenge]){
-//        let newCalendar = Calendars(name:name, startDate:startDate, doors: doors)
-//        modelContext.insert(newCalendar)
-//        do {
-//            try modelContext.save()
-//            print("Calendar successfully saved.")
-//        } catch {
-//            print("Error saving doors: \(error)")
-//        }
-//    }
-    func createCalendar(name: String, doors: [Door], startDate: Date, challenges: [Challenge]) {
-        let newCalendar = Calendars(name: name, startDate: startDate, doors: doors)
+    func createCalendar(name: String, startDate: Date, doors: [Door]) {
+        let newCalendar = CalendarModel(name: name, startDate: startDate, doors: doors)
+        for door in doors {
+            door.calendar = newCalendar // Set the relationship
+        }
         modelContext.insert(newCalendar)
+
         do {
             try modelContext.save()
-            print("Calendar successfully saved with ID: \(newCalendar.id)")
+            print("Calendar successfully saved: \(newCalendar.name)")
         } catch {
             print("Error saving calendar: \(error)")
         }
     }
+
     
-    func createDoors(totalDoors: Int, startDate: Date, challenges: [Challenge]) -> [Door] {
+    func createDoors(totalDoors: Int, startDate: Date) -> [Door] {
         var shuffledChallenges = challenges.shuffled()
         doors = (0..<totalDoors).map { index in
             let creationDate = Calendar.current.date(byAdding: .day, value: index, to: startDate) ?? Date()
@@ -78,44 +75,34 @@ class CalendarViewModel: ObservableObject {
         }
         do {
             try modelContext.save()
-            print("Doors successfully saved.")
+            for door in doors {
+                print("Created door \(door.id)")
+            }
+            print("Doors successfully saved. \(doors.count)")
         } catch {
             print("Error saving doors: \(error)")
         }
         return doors
     }
-
-
-//    
-//    func createDoors(totalDoors: Int, startDate: Date, challenges: [Challenge]) -> [Door] {
-//        doors = (0..<totalDoors).map { index in
-//            let creationDate = calendar.date(byAdding: .day, value: index, to: startDate) ?? Date()
-//            let door = Door(
-//                number: index + 1,
-//                date: creationDate,
-//                isOpened: false,
-//                challenge: challenges.randomElement() // Assign random challenge
-//            )
-//            modelContext.insert(door)
-//            print("Created door \(door.number) with date \(door.date)")
-//            return door
-//        }
-//        do {
-//            try modelContext.save()
-//            print("Doors successfully saved.")
-//        } catch {
-//            print("Error saving doors: \(error)")
-//        }
-//        return doors
-//    }
     
     func fetchDoors() {
-        let fetchDescriptor = FetchDescriptor<Door>(sortBy: [SortDescriptor(\.number)])
+        let fetchDescriptor = FetchDescriptor<Door>()
         do {
-            doors = try modelContext.fetch(fetchDescriptor) // Fetch and update the doors array
-            print("Fetched doors: \(doors.count)")
+           var fetchedDoors = try modelContext.fetch(fetchDescriptor)
+            print("Fetched doors with challenges:")
+            for door in fetchedDoors {
+                print("Door \(door.id):")
+                print("Door \(door.number): \(door.challenge?.text ?? "No Challenge")")
+            }
         } catch {
             print("Failed to fetch doors: \(error)")
+        }
+    }
+
+    func fetchDoorswithQuery() {
+        for door in alldoors {
+            print("Door \(door.id):")
+            print("Door \(door.number): \(door.challenge?.text ?? "No Challenge")")
         }
     }
     
@@ -150,25 +137,34 @@ class CalendarViewModel: ObservableObject {
         }
     }
     func timeUntilNextDoor() -> String? {
-         guard let nextDoor = doors.first(where: { !$0.isOpened }) else {
-             return nil // No more doors to open
-         }
+        print("From timeUntilNextDoor method")
+        print("Doors array: \(doors.map { "Door \(String($0.number)) - Opened: \($0.isOpened)" })")
+        print("Alldoors array: \(alldoors.map { "Door \(String($0.number)) - Opened: \($0.isOpened)" })")
 
-         let now = Date()
-         let remainingTime = nextDoor.date.timeIntervalSince(now)
-         
-         guard remainingTime > 0 else {
-             return "Door can be opened now!"
-         }
+        guard let nextDoor = doors.first(where: { !$0.isOpened }) else {
+            print("No doors left to open")
+            return nil // No more doors to open
+        }
 
-         let hours = Int(remainingTime) / 3600
-         let minutes = (Int(remainingTime) % 3600) / 60
-         let seconds = Int(remainingTime) % 60
-        
-        print("From  Method :")
+        print("Next door to open: \(nextDoor.number) at \(nextDoor.date)")
 
-         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-     }
+        let now = Date()
+        let remainingTime = nextDoor.date.timeIntervalSince(now)
+
+        guard remainingTime > 0 else {
+            return "Door can be opened now!"
+        }
+
+        let hours = Int(remainingTime) / 3600
+        let minutes = (Int(remainingTime) % 3600) / 60
+        let seconds = Int(remainingTime) % 60
+
+        let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        print("Time until next door: \(formattedTime)")
+
+        return formattedTime
+    }
+
     
     /// Finds the next door that can be opened.
     private func nextDoorToOpen() -> Door? {

@@ -12,10 +12,11 @@ import SwiftData
 struct CalendarApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            DoorEntry.self,
+           // DoorEntry.self,
             User.self,
+            CalendarModel.self,
             Door.self,
-            Calendars.self
+          
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -33,3 +34,4 @@ struct CalendarApp: App {
         .modelContainer(sharedModelContainer)
     }
 }
+ 

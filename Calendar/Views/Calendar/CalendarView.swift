@@ -5,16 +5,21 @@ struct CalendarView: View {
     @State private var selectedTab = 0
     @State private var calendarName: String = ""
     @State private var numberOfDoors: Int = 1
-    @StateObject private var viewModel = CalendarViewModel()
     @Environment(\.modelContext) private var modelContext
+    @StateObject private var viewModel : CalendarViewModel
     @AppStorage("firstCalendarCreated") private var firstCalendarCreated: Bool = false
+    @AppStorage("timeleftToOpen") private var timeleftToOpen: String = ""
+    @State private var draggingDoor: Door? = nil // Track the currently dragged door
 
-    var body: some View {
-        if !firstCalendarCreated {
-            WelcomeFirstTime(selectedTab: $selectedTab) {
-                           firstCalendarCreated = true // Mark as completed
-                       }
-        } else {
+    init() {
+            _viewModel = StateObject(wrappedValue: CalendarViewModel(modelContext: Environment(\.modelContext).wrappedValue))
+        }
+    var body: some View{
+//        if !firstCalendarCreated {
+//            WelcomeFirstTime(selectedTab: $selectedTab) {
+//                firstCalendarCreated = true // Mark as completed
+//            }
+//        } else {
             NavigationView {
                 TabView(selection: $selectedTab) {
                     ZStack {
@@ -90,9 +95,9 @@ struct CalendarView: View {
                                     Task {
                                         let doors = viewModel.createDoors(
                                             totalDoors: numberOfDoors,
-                                            startDate: Date(),
-                                            challenges: []
+                                            startDate: Date()
                                         )
+
                                         await MainActor.run {
                                             viewModel.createCalendar(
                                                 name: calendarName,
@@ -131,17 +136,35 @@ struct CalendarView: View {
                                 columns: Array(repeating: GridItem(.flexible()), count: 4),
                                 spacing: 10
                             ) {
-                                ForEach(viewModel.doors) { door in
+                                ForEach($viewModel.doors) { $door in
                                     DoorView(
-                                        door: door,
+                                        door: $door,
                                         canOpen: viewModel.canOpen(door: door),
                                         onOpen: {
                                             viewModel.openDoor(door)
                                         }
                                     )
+                                    .onDrag {
+                                        draggingDoor = door
+                                        return NSItemProvider(object: "\(door.id)" as NSString)
+                                    }
+                                    .onDrop(
+                                        of: [.text],
+                                        delegate: DoorDropDelegate(
+                                            item: door,
+                                            current: $draggingDoor,
+                                            doors: $viewModel.doors
+                                        )
+                                    )
                                 }
                             }
                             .padding()
+                            
+                            Button (action : {
+                                viewModel.timeUntilNextDoor()
+                            }){
+                                Text("Click on me")
+                            }
                         }
                     }
                     .tag(1)
@@ -153,7 +176,7 @@ struct CalendarView: View {
             }
         }
     }
-}
+//}
 
 #Preview {
     CalendarView()

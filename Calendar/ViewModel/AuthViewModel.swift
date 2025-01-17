@@ -12,7 +12,8 @@ class AuthViewModel: ObservableObject{
     @Published var isLoggedIn = false
     @Published var errorMessage: String?
     @Published var showError = false
-   // @Environment(\.modelContext) var modelContext: ModelContext?
+    @Published var calendars: [CalendarModel] = []
+    // @Environment(\.modelContext) var modelContext: ModelContext?
 
     private let api = FirebaseAuthAPI()
     private let userStore = SaveToFireStore()
@@ -109,4 +110,28 @@ class AuthViewModel: ObservableObject{
     }
 
     
-}
+//    func saveCalendar(name: String, startDate: Date, doors: [Door], completion: @escaping (Bool) -> Void) {
+//        // Create a CalendarModel instance with all required parameters
+//        let newCalendar = CalendarModel(
+//        //    id: UUID().uuidString, // Generate a unique ID if it's required
+//            name: name,
+//            startDate: startDate,
+//            doors: doors
+//        )
+//        
+//        // Save to Firestore or wherever the save operation is happening
+//        userStore.saveCalendar(newCalendar) { result in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success:
+//                    self.calendars.append(newCalendar) // Add to the local array
+//                    completion(true)
+//                case .failure(let error):
+//                    self.errorMessage = error.localizedDescription
+//                    completion(false)
+//                }
+//            }
+//        }
+//    }
+
+    }

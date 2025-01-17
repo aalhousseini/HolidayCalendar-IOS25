@@ -8,20 +8,27 @@
 import SwiftUI
 
 struct DetailView: View {
-    var image: UIImage?
-    var quote: String
-    var challenge: Challenge?
+//    var image: UIImage?
+//    var quote: String
+//    var challenge: Challenge?
+    var door : Door
     @AppStorage("showInfo") var showInfo = false
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
 
         ZStack {
             // Background Image
-            if let image = image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
+//            if let image = image {
+//                Image(uiImage: image)
+//                    .resizable()
+//                    .scaledToFill()
+//                    .edgesIgnoringSafeArea(.all)
+                if let imageData = door.image, let image = UIImage(data: imageData) {
+                      Image(uiImage: image)
+                          .resizable()
+                          .scaledToFill()
+                          .edgesIgnoringSafeArea(.all)
             } else {
                 Image(uiImage: .mediation)
                     .resizable()
@@ -29,6 +36,8 @@ struct DetailView: View {
                     .edgesIgnoringSafeArea(.all)
                 // Placeholder background
             }
+            
+       
 
             // Overlay Card
             VStack {
@@ -38,7 +47,7 @@ struct DetailView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Spacer()
                         // Challenge Name
-                        Text(challenge?.text ?? "No Challenge Assigned")
+                        Text(door.challenge?.text ?? "No Challenge Assigned")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -46,7 +55,7 @@ struct DetailView: View {
                             .lineLimit(nil)
 
                         // Quote or Description
-                        Text(quote.isEmpty ? "No quote yet." : quote)
+                        Text(door.quote ?? ""  )
                             .font(.body)
                             .foregroundColor(.white)
                             .multilineTextAlignment(.leading)
@@ -64,13 +73,28 @@ struct DetailView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem{
+                Button (action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "xmark")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                        .padding(20)
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    DetailView(
-        image: UIImage(named: "mediation"), // Replace with an actual asset or nil for testing
-        quote: "This is an example quote about the challenge. ahhaha ah ah ah a hah. This is an additional text to test multiline behavior and scrolling. It should be visible and scrollable properly.",
-        challenge: Challenge(id: 1, text: "Run 5km")
-    )
+    let challenge = Challenge(id: 1, text: "Run 5km")
+    let door =  Door(number: 1, date: Date(), isOpened: false, challenge: challenge)
+    DetailView( door: door)
+       
+//        image: UIImage(named: "mediation"), // Replace with an actual asset or nil for testing
+//        quote: "This is an example quote about the challenge. ahhaha ah ah ah a hah. This is an additional text to test multiline behavior and scrolling. It should be visible and scrollable properly.",
+//        challenge: Challenge(id: 1, text: "Run 5km")
+//    )
 }

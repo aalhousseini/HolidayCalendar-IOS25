@@ -13,6 +13,7 @@ struct ContentView: View {
 //    @Query private var items: [Item]
     
     @AppStorage("isLoggedIn")  var isLoggedIn = false
+    @Query var calendars: [CalendarModel]
 
     var body: some View {
         if(isLoggedIn) {

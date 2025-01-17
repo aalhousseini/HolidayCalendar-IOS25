@@ -18,8 +18,8 @@ class Door: Identifiable {
     var quote: String?
     var image: Data?
     var challenge: Challenge?
-    @Relationship(inverse: \Calendars.doors) var calendar: Calendars?
-    init(id: UUID = UUID(), number: Int, date: Date, isOpened: Bool, quote: String? = nil, image: Data? = nil, challenge: Challenge? = nil, calendar: Calendars? = nil) {
+    @Relationship(inverse: \CalendarModel.doors) var calendar: CalendarModel?
+    init(id: UUID = UUID(), number: Int, date: Date, isOpened: Bool, quote: String? = nil, image: Data? = nil, challenge: Challenge? = nil, calendar: CalendarModel? = nil) {
         self.id = id
         self.number = number
         self.date = date
@@ -33,7 +33,7 @@ class Door: Identifiable {
 
 
 @Model
-class Calendars: Identifiable {
+class CalendarModel: Identifiable {
     @Attribute(.unique) var id: UUID = UUID()
     var name: String
     var startDate: Date

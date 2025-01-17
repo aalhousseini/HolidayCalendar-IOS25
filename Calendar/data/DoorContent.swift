@@ -12,3 +12,4 @@ enum DoorContent {
     case photo(Image)
     case quote(String)
 }
+
