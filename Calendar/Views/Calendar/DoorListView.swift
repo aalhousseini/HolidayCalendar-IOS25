@@ -8,7 +8,7 @@ import SwiftUI
 import SwiftData
 
 struct CalendarView2: View {
-    @Query var calendars: [CalendarModel] // Automatically fetches calendars from the persistent store
+    @Query var calendars: [CalendarModel] 
     @State private var showCalendars: Bool = false
 
     var body: some View {

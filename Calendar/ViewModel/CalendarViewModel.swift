@@ -52,7 +52,7 @@ class CalendarViewModel: ObservableObject {
 
         do {
             try modelContext.save()
-            print("Calendar successfully saved: \(newCalendar.name)")
+            print("Calendar successfully saved: \(newCalendar.id)")
         } catch {
             print("Error saving calendar: \(error)")
         }

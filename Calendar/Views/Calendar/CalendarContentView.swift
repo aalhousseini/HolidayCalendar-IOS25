@@ -5,6 +5,77 @@
 ////  Created by Al Housseini, Ahmad on 16.01.25.
 ////
 //
+
+import SwiftUI
+
+
+
+struct CalendarContentView: View {
+  let calendarName: String
+  @ObservedObject var viewModel: CalendarViewModel
+  @State private var draggingDoor: Door? = nil
+  @State private var isEditing = false
+  var body: some View {
+    ZStack {
+      VStack {
+        Text(calendarName)
+          .font(.largeTitle)
+          .padding()
+
+        LazyVGrid(
+          columns: Array(repeating: GridItem(.flexible()), count: 4),
+          spacing: 10
+        ) {
+          ForEach($viewModel.doors) { $door in
+            DoorView(
+              door: $door,
+              canOpen: viewModel.canOpen(door: door),
+              onOpen: {
+                viewModel.openDoor(door)
+              }
+            )
+            .onDrag {
+              draggingDoor = door
+              return NSItemProvider(object: "\(door.id)" as NSString)
+            }
+            .onDrop(
+              of: [.text],
+              delegate: DoorDropDelegate(
+                item: door,
+                current: $draggingDoor,
+                doors: $viewModel.doors
+              )
+            )
+          }
+        }
+
+      }
+    }.padding()
+
+    Button(action: {
+    }) {
+      Text("Click on me")
+    }
+    .navigationBarItems(trailing: Button(action: {
+                isEditing.toggle() // Show edit sheet
+            }) {
+                Image(systemName: "pencil")
+                    .imageScale(.large)
+            }).sheet(isPresented: $isEditing){
+                EditCalendarView(calendarName: calendarName, numberOfDoors: viewModel.doors.count, onSave:{ name, doors in
+                  print("Hello, World!")
+                }
+                    )
+                    
+                
+            }
+  }
+}
+
+
+
+
+
 //import SwiftUI
 //
 //struct CalendarCreation: View {

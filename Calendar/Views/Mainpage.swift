@@ -26,7 +26,7 @@ struct Mainpage: View {
                        Text("Calendar")
                    }
                
-               Text("Add")
+               CalendarView2()
                    .tabItem {
                        Image(systemName: "calendar.badge.plus")
                        Text("Add")
