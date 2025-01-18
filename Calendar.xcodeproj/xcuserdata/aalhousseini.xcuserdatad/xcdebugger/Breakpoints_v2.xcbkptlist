@@ -18,6 +18,92 @@
             endingLineNumber = "13"
             landmarkName = "CalendarContentView"
             landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "440C4FC0-2A94-45B9-B070-87AFEE74F0A6 - 9678830b6ab003a6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of Calendar.CalendarContentView.viewModel : Calendar.CalendarViewModel"
+                  moduleName = "Calendar.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aalhousseini/Library/CloudStorage/OneDrive-Deloitte(O365D)/Desktop/calendar-test/HolidayCalendar-IOS25/Calendar/Views/Calendar/CalendarContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "440C4FC0-2A94-45B9-B070-87AFEE74F0A6 - 7b249dbe9c64919"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Calendar.CalendarContentView.viewModel.getter : Calendar.CalendarViewModel"
+                  moduleName = "Calendar.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aalhousseini/Library/CloudStorage/OneDrive-Deloitte(O365D)/Desktop/calendar-test/HolidayCalendar-IOS25/Calendar/Views/Calendar/CalendarContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "440C4FC0-2A94-45B9-B070-87AFEE74F0A6 - 73c568da187593e3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Calendar.CalendarContentView.viewModel.setter : Calendar.CalendarViewModel"
+                  moduleName = "Calendar.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aalhousseini/Library/CloudStorage/OneDrive-Deloitte(O365D)/Desktop/calendar-test/HolidayCalendar-IOS25/Calendar/Views/Calendar/CalendarContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14">
+               </Location>
+               <Location
+                  uuid = "440C4FC0-2A94-45B9-B070-87AFEE74F0A6 - 294a181a8d07e9d0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Calendar.CalendarContentView.viewModel.modify : Calendar.CalendarViewModel"
+                  moduleName = "Calendar.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aalhousseini/Library/CloudStorage/OneDrive-Deloitte(O365D)/Desktop/calendar-test/HolidayCalendar-IOS25/Calendar/Views/Calendar/CalendarContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14">
+               </Location>
+               <Location
+                  uuid = "440C4FC0-2A94-45B9-B070-87AFEE74F0A6 - f3698d40901106cf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Calendar.CalendarContentView.viewModel.modify : Calendar.CalendarViewModel with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "Calendar.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "440C4FC0-2A94-45B9-B070-87AFEE74F0A6 - 6a6359abb6deeffc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Calendar.CalendarContentView.$viewModel.getter : SwiftUI.ObservedObject&lt;Calendar.CalendarViewModel&gt;.Wrapper"
+                  moduleName = "Calendar.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aalhousseini/Library/CloudStorage/OneDrive-Deloitte(O365D)/Desktop/calendar-test/HolidayCalendar-IOS25/Calendar/Views/Calendar/CalendarContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

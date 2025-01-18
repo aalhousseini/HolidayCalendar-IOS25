@@ -20,72 +20,84 @@ struct DoorView: View {
     @State private var showDetailView: Bool = false // For showing the detail view
     @State private var showContentEditor: Bool = false // For editing the door's data
     @State private var shakeOffset: CGFloat = 0
-//    @StateObject private var viewModel = CalendarViewModel()
-//    @AppStorage("timeleftToOpen") private var timeleftToOpen: String = ""
     let canOpen: Bool
     var onOpen: () -> Void
 
     var body: some View {
         ZStack {
             if door.isLocked {
-                // Opened door with yellow color and "Tap to View" text
+                // Locked door appearance
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 70, height: 70)
+                    .foregroundColor(.gray)
+                    .overlay(
+                        VStack {
+                            Text("\(door.number + 1)")
+                                .font(.largeTitle)
+                                .foregroundColor(.white)
+                            Text("🔒 Locked")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                        }
+                    )
+                    .onTapGesture {
+                        triggerShake() // Indicate door cannot be opened
+                    }
+            } else if !door.isCompleted {
+                // Unlocked but unopened door
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 70, height: 70)
+                    .foregroundColor(canOpen ? .green : .yellow)
+                    .overlay(
+                        VStack {
+                            Text("\(door.number + 1)")
+                                .font(.largeTitle)
+                                .foregroundColor(.white)
+                            Text(canOpen ? "🔓 Tap to Open" : "🔓")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                        }
+                    )
+                    .onTapGesture {
+                        if canOpen {
+                            onOpen() // Handle the door opening logic
+                            showContentEditor = true
+                        } else {
+                            triggerShake()
+                        }
+                    }
+                    .sheet(isPresented: $showContentEditor, onDismiss: {
+                        // Check the door's state after closing the content editor
+                        if door.isCompleted {
+                            showDetailView = true
+                        }
+                    }) {
+                        ContentEditorView(door: $door)
+                    }
+            } else {
+                // Completed door
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 70, height: 70)
                     .foregroundColor(.yellow)
                     .overlay(
                         VStack {
-                            Text("Tap to View")
+                            Text("\(door.number + 1)")
+                                .font(.largeTitle)
+                                .foregroundColor(.white)
+                            Text("✅ Completed")
                                 .font(.caption)
                                 .foregroundColor(.white)
-                                Text("Today's Challenge:")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding(.top, 5)
-                            Text(door.challenge)
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal)
-                            
                         }
                     )
                     .onTapGesture {
-                        // Navigate to DetailView when the door is already opened
-                        showDetailView = true
+                        showDetailView = true // Show detail view for completed doors
                     }
                     .sheet(isPresented: $showDetailView) {
                         DetailView(door: door)
                     }
-            } else {
-                // Unopened door with green or gray color based on canOpen
-                RoundedRectangle(cornerRadius: 10, style: .circular)
-                    .frame(width: 80, height: 80)
-                    .foregroundColor(canOpen ? .green : .gray)
-                    .overlay(
-                        VStack {
-                            Text("\(door.number)")
-                                .font(.largeTitle)
-                                .foregroundColor(.white)
-                            Text(canOpen ? "🔓" : "🔒")
-                                .font(.largeTitle)
-                        }
-                    )
-                    .offset(x: shakeOffset)
-                    .onTapGesture {
-                        if canOpen {
-                            // Show the ContentEditorView sheet for unopened doors
-                            showContentEditor = true
-                            // door.isOpened = true
-//                            timeleftToOpen = viewModel.timeUntilNextDoor() ??  "NA"
-                        } else {
-                            triggerShake()
-                        }
-                    }
             }
         }
-        .sheet(isPresented: $showContentEditor) {
-            ContentEditorView(door: $door)
-        }
+        .offset(x: shakeOffset)
     }
 
     private func triggerShake() {
@@ -108,8 +120,16 @@ struct DoorView: View {
 }
 
 #Preview {
-    let challenge = ChallengeLoader.loadRandomChallenge()
-    DoorView(door: .constant(Door(number: 1, unlockDate: Date(), challenge: challenge ?? "default challenge")),
+    let challenge = "Run 5km"
+    DoorView(door: .constant(Door(number: 1, unlockDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!, challenge: challenge)),
+             canOpen: true,
+             onOpen: { print("Door opened!") })
+}
+
+
+#Preview {
+    let challenge = "Run 5km"
+    DoorView(door: .constant(Door(number: 1, unlockDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!, challenge: challenge)),
              canOpen: true,
              onOpen: { print("Door opened!") })
 }

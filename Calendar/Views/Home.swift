@@ -90,6 +90,16 @@ struct Home: View {
                         }
                 }
                 .padding()
+                Spacer().frame(height: 40)
+                // Mock data
+                ActivityStatsView(
+                                  caloriesBurned: 724,
+                                  steps: 4087,
+                                  distance: 2.11,
+                                  activityTime: "12:06"
+                              )
+                
+                Spacer().frame(height: 50)
                 
                 Button(action: {
                     isLoggedIn = false

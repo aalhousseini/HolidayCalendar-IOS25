@@ -10,7 +10,9 @@ import SwiftData
 struct CalendarListView: View {
     @Query var calendars: [CalendarModel]
     @Environment(\.modelContext) private var modelContext
-    
+    @State private var draggingDoor: Door? = nil
+    @State private var updatedDoors: [Door] = []
+
     var body: some View {
         NavigationView {
             VStack {
@@ -19,23 +21,49 @@ struct CalendarListView: View {
                         .font(.headline)
                         .foregroundColor(.secondary)
                 } else {
-                    List(calendars) { calendar in
-                        NavigationLink {
-                            CalendarDetailView(calendar: calendar)
-                        } label: {
-                            Text(calendar.name)
-                                .swipeActions {
-                                    Button(role: .destructive) {
-                                        modelContext.delete(calendar)
-                                    } label: {
-                                        Image(systemName: "trash")
+                    List {
+                        ForEach(calendars) { calendar in
+                            Section {
+                                DisclosureGroup(calendar.name) {
+                                    LazyVGrid(
+                                        columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: 3),
+                                        spacing: 20
+                                    ) {
+                                        ForEach(updatedDoors) { door in
+                                            DoorView(
+                                                door: .constant(door),
+                                                canOpen: !door.isLocked,
+                                                onOpen: {
+                                                    print("Door \(door.number + 1) opened!")
+                                                }
+                                            )
+                                            .onDrag {
+                                                draggingDoor = door
+                                                return NSItemProvider(object: NSString(string: "\(door.id)"))
+                                            }
+                                            .onDrop(
+                                                of: [.text],
+                                                delegate: DoorDropDelegate(
+                                                    item: door,
+                                                    current: $draggingDoor,
+                                                    doors: $updatedDoors
+                                                )
+                                            )
+                                        }
                                     }
-                                    Button {
-                                        // TODO: Export
-                                    } label: {
-                                        Image(systemName: "square.and.arrow.up")
+                                    .padding(.horizontal, 20)
+                                    .onAppear {
+                                        updatedDoors = calendar.doors
                                     }
                                 }
+                            }
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    modelContext.delete(calendar)
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                            }
                         }
                     }
                 }
@@ -44,6 +72,7 @@ struct CalendarListView: View {
         }
     }
 }
+
 
 #Preview {
     CalendarListView()
