@@ -12,6 +12,7 @@ import _SwiftData_SwiftUI
 struct Home: View {
     @AppStorage("nameStorage") var nameStorage : String = ""
     @AppStorage("isLoggedIn")  var isLoggedIn = false
+    @AppStorage("firstLaunch")  var firstLaunch = false
     @StateObject private var viewModel : CalendarViewModel
     @State private var timeLeft: String? = nil
     @AppStorage("timeleftToOpen") private var timeleftToOpen: String = ""
@@ -103,6 +104,7 @@ struct Home: View {
                 
                 Button(action: {
                     isLoggedIn = false
+                     firstLaunch = true
                 }) {
                     Text("Logout")
                         .font(.custom("Georgia", size: 22))
