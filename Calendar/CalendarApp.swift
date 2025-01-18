@@ -12,7 +12,6 @@ import SwiftData
 struct CalendarApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-           // DoorEntry.self,
             User.self,
             CalendarModel.self,
             Door.self,

@@ -15,7 +15,7 @@ class CalendarViewModel: ObservableObject {
 
     @Published var doors: [Door] = []
     @Published var calendars: [CalendarModel] = []
-    @Published var challenges: [Challenge] = ChallengeLoader.loadChallenges()
+    @Published var challenges: [ChallengeInternal] = ChallengeLoader.loadChallenges()
     @Query private var alldoors : [Door]
     
     
@@ -69,9 +69,8 @@ class CalendarViewModel: ObservableObject {
             let challenge = shuffledChallenges.isEmpty ? nil : shuffledChallenges.removeFirst()
             let door = Door(
                 number: index + 1,
-                date: creationDate,
-                isOpened: false,
-                challenge: challenge
+                unlockDate: creationDate,
+                challenge: "Test"
             )
             modelContext.insert(door)
             return door
@@ -95,7 +94,7 @@ class CalendarViewModel: ObservableObject {
             print("Fetched doors with challenges:")
             for door in fetchedDoors {
                 print("Door \(door.id):")
-                print("Door \(door.number): \(door.challenge?.text ?? "No Challenge")")
+                print("Door \(door.number): \(door.challenge)")
             }
         } catch {
             print("Failed to fetch doors: \(error)")
@@ -105,7 +104,7 @@ class CalendarViewModel: ObservableObject {
     func fetchDoorswithQuery() {
         for door in alldoors {
             print("Door \(door.id):")
-            print("Door \(door.number): \(door.challenge?.text ?? "No Challenge")")
+            print("Door \(door.number): \(door.challenge)")
         }
     }
     
@@ -119,7 +118,7 @@ class CalendarViewModel: ObservableObject {
         
         // A door can only be opened if it's the next sequential door and today >= its date.
         let today = calendar.startOfDay(for: Date())
-        return door.id == firstUnavailableDoor.id && today >= calendar.startOfDay(for: door.date)
+        return door.id == firstUnavailableDoor.id && today >= calendar.startOfDay(for: door.unlockDate)
     }
     
     /// Opens a door if allowed.
@@ -130,7 +129,7 @@ class CalendarViewModel: ObservableObject {
         }
         
         if let index = doors.firstIndex(where: { $0.id == door.id }) {
-            doors[index].isOpened = true
+            // doors[index].isLocked = true
         }
         do {
             try modelContext.save()
@@ -142,18 +141,18 @@ class CalendarViewModel: ObservableObject {
     
     func timeUntilNextDoor() -> String? {
         print("From timeUntilNextDoor method")
-        print("Doors array: \(doors.map { "Door \(String($0.number)) - Opened: \($0.isOpened)" })")
-        print("Alldoors array: \(alldoors.map { "Door \(String($0.number)) - Opened: \($0.isOpened)" })")
+        print("Doors array: \(doors.map { "Door \(String($0.number)) - Opened: \($0.isLocked)" })")
+        print("Alldoors array: \(alldoors.map { "Door \(String($0.number)) - Opened: \($0.isLocked)" })")
 
-        guard let nextDoor = doors.first(where: { !$0.isOpened }) else {
+        guard let nextDoor = doors.first(where: { !$0.isLocked }) else {
             print("No doors left to open")
             return nil // No more doors to open
         }
 
-        print("Next door to open: \(nextDoor.number) at \(nextDoor.date)")
+        print("Next door to open: \(nextDoor.number) at \(nextDoor.unlockDate)")
 
         let now = Date()
-        let remainingTime = nextDoor.date.timeIntervalSince(now)
+        let remainingTime = nextDoor.unlockDate.timeIntervalSince(now)
 
         guard remainingTime > 0 else {
             return "Door can be opened now!"
@@ -172,10 +171,10 @@ class CalendarViewModel: ObservableObject {
     
     /// Finds the next door that can be opened.
     private func nextDoorToOpen() -> Door? {
-        return doors.first { !$0.isOpened } // Finds the first unopened door
+        return doors.first { !$0.isLocked } // Finds the first unopened door
     }
     
-    func updateCalendarById(_ id: UUID, newName: String, newTotalDoors: Int, challenges: [Challenge]) {
+    func updateCalendarById(_ id: UUID, newName: String, newTotalDoors: Int, challenges: [String]) {
         guard let calendar = calendars.first(where: { $0.id == id }) else {
             print("Calendar with id \(id) not found.")
             return
@@ -189,9 +188,8 @@ class CalendarViewModel: ObservableObject {
                 let creationDate = Calendar.current.date(byAdding: .day, value: index, to: Date()) ?? Date()
                 return Door(
                     number: index + 1,
-                    date: creationDate,
-                    isOpened: false,
-                    challenge: challenges.randomElement()
+                    unlockDate: creationDate,
+                    challenge: ""
                 )
             }
             calendar.doors.append(contentsOf: extraDoors)

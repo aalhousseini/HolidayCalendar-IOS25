@@ -231,7 +231,10 @@ struct ContentEditorView: View {
     @Binding var door: Door // Use a binding to persist door updates
     @State private var selectedImage: UIImage?
     @State private var quote: String
+    
     @State private var selectedPhotoPickerItem: PhotosPickerItem? = nil
+    
+    
     @State private var showTextEditor: Bool = false
     @State private var navigateToDetailView: Bool = false
 
@@ -256,7 +259,7 @@ struct ContentEditorView: View {
                         .foregroundColor(Color.primary)
                         .padding(.top, 40)
 
-                    Text(door.challenge?.text ?? "You are free to do whatever you want")
+                    Text(door.challenge)
                         .font(.headline)
                         .foregroundColor(Color.secondary)
 
@@ -422,14 +425,12 @@ struct ContentEditorView: View {
 }
 
 #Preview {
-    let challenge = Challenge(id: 1, text: "Run 5km")
     let door = Door(
         number: 1,
-        date: Date(),
-        isOpened: false,
+        unlockDate: Date(),
         quote: "Stay healthy!",
         image: UIImage(named: "example")?.jpegData(compressionQuality: 0.8),
-        challenge: challenge
+        challenge: "challenge"
     )
 
     ContentEditorView(door: .constant(door))

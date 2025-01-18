@@ -69,8 +69,6 @@ struct CalendarContentView: View {
                   print("Hello, World!")
                 }
                     )
-                    
-                
             }
   }
 }

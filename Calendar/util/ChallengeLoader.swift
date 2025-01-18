@@ -7,15 +7,20 @@
 
 import Foundation
 
+struct ChallengeInternal: Identifiable, Codable {
+    var id: Int
+    var text: String
+}
+
 struct ChallengeLoader {
-    static func loadChallenges() -> [Challenge] {
+    static func loadChallenges() -> [ChallengeInternal] {
         guard let url = Bundle.main.url(forResource: "challenges", withExtension: "json") else {
             fatalError("Could not find challenges.json")
         }
         
         do {
             let data = try Data(contentsOf: url)
-            let challenges = try JSONDecoder().decode([Challenge].self, from: data)
+            let challenges = try JSONDecoder().decode([ChallengeInternal].self, from: data)
             return challenges
         } catch {
             print("Error decoding challenges: \(error)")
@@ -23,8 +28,9 @@ struct ChallengeLoader {
         }
     }
     
-    static func loadRandomChallenge() -> Challenge? {
+    static func loadRandomChallenge() -> String {
         let challenges = loadChallenges()
-        return challenges.randomElement()
+        
+        return challenges.randomElement()?.text ?? ""
     }
 }

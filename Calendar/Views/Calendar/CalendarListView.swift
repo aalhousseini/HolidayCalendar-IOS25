@@ -21,12 +21,19 @@ struct CalendarListView: View {
                 } else {
                     List(calendars) { calendar in
                         NavigationLink {
-                            Text("Calendar Detail View goes here...")
+                            CalendarDetailView(calendar: calendar)
                         } label: {
                             Text(calendar.name)
                                 .swipeActions {
-                                    Button("Löschen", role: .destructive) {
+                                    Button(role: .destructive) {
                                         modelContext.delete(calendar)
+                                    } label: {
+                                        Image(systemName: "trash")
+                                    }
+                                    Button {
+                                        // TODO: Export
+                                    } label: {
+                                        Image(systemName: "square.and.arrow.up")
                                     }
                                 }
                         }

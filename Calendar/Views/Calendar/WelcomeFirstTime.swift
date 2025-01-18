@@ -17,6 +17,7 @@ struct WelcomeFirstTime: View {
     @State private var seventhtextVisible = false
     @Binding var selectedTab: Int
     var onCompletion: () -> Void
+    
     var body: some View {
             TabView(selection: $selectedTab) {
                 ZStack {

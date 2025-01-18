@@ -47,7 +47,7 @@ struct DetailView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Spacer()
                         // Challenge Name
-                        Text(door.challenge?.text ?? "No Challenge Assigned")
+                        Text(door.challenge)
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -89,8 +89,7 @@ struct DetailView: View {
 }
 
 #Preview {
-    let challenge = Challenge(id: 1, text: "Run 5km")
-    let door =  Door(number: 1, date: Date(), isOpened: false, challenge: challenge)
+    let door =  Door(number: 1, unlockDate: Date(), challenge: "Challange")
     DetailView( door: door)
        
 //        image: UIImage(named: "mediation"), // Replace with an actual asset or nil for testing

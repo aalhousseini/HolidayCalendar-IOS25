@@ -8,26 +8,31 @@
 import Foundation
 import SwiftData
 
-
 @Model
 class Door: Identifiable {
     @Attribute(.unique) var id: UUID = UUID()
     var number: Int
-    var date: Date
-    var isOpened: Bool = false
+    var unlockDate: Date
+    
+    var isCompleted: Bool
+    
+    var isLocked: Bool {
+        return unlockDate > Date()
+    }
+    
     var quote: String?
     var image: Data?
-    var challenge: Challenge?
+    var challenge: String
+    
     @Relationship(inverse: \CalendarModel.doors) var calendar: CalendarModel?
     
-    init(id: UUID = UUID(), number: Int, date: Date, isOpened: Bool, quote: String? = nil, image: Data? = nil, challenge: Challenge? = nil, calendar: CalendarModel? = nil) {
-        self.id = id
+    init(number: Int, unlockDate: Date, quote: String? = nil, image: Data? = nil, challenge: String, calendar: CalendarModel? = nil) {
         self.number = number
-        self.date = date
-        self.isOpened = isOpened
+        self.unlockDate = unlockDate
         self.quote = quote
         self.image = image
         self.challenge = challenge
         self.calendar = calendar
+        self.isCompleted = false
     }
 }

@@ -27,7 +27,7 @@ struct DoorView: View {
 
     var body: some View {
         ZStack {
-            if door.isOpened {
+            if door.isLocked {
                 // Opened door with yellow color and "Tap to View" text
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 70, height: 70)
@@ -37,17 +37,16 @@ struct DoorView: View {
                             Text("Tap to View")
                                 .font(.caption)
                                 .foregroundColor(.white)
-                            if let challenge = door.challenge {
                                 Text("Today's Challenge:")
                                     .font(.headline)
                                     .foregroundColor(.white)
                                     .padding(.top, 5)
-                                Text(challenge.text)
+                            Text(door.challenge)
                                     .font(.subheadline)
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.center)
                                     .padding(.horizontal)
-                            }
+                            
                         }
                     )
                     .onTapGesture {
@@ -76,7 +75,7 @@ struct DoorView: View {
                         if canOpen {
                             // Show the ContentEditorView sheet for unopened doors
                             showContentEditor = true
-                            door.isOpened = true
+                            // door.isOpened = true
 //                            timeleftToOpen = viewModel.timeUntilNextDoor() ??  "NA"
                         } else {
                             triggerShake()
@@ -110,7 +109,7 @@ struct DoorView: View {
 
 #Preview {
     let challenge = ChallengeLoader.loadRandomChallenge()
-    DoorView(door: .constant(Door(number: 1, date: Date(), isOpened: false, challenge: challenge)),
+    DoorView(door: .constant(Door(number: 1, unlockDate: Date(), challenge: challenge ?? "default challenge")),
              canOpen: true,
              onOpen: { print("Door opened!") })
 }
