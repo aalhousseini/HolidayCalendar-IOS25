@@ -7,6 +7,43 @@
 import SwiftUI
 import SwiftData
 
+//struct CalendarListView: View {
+//    @Query var calendars: [CalendarModel]
+//    @Environment(\.modelContext) private var modelContext
+//    
+//    var body: some View {
+//        NavigationView {
+//            VStack {
+//                if calendars.isEmpty {
+//                    Text("No calendars found.")
+//                        .font(.headline)
+//                        .foregroundColor(.secondary)
+//                } else {
+//                    List(calendars) { calendar in
+//                        NavigationLink {
+//                            CalendarDetailView(calendar: calendar)
+//                        } label: {
+//                            Text(calendar.name)
+//                                .swipeActions {
+//                                    Button(role: .destructive) {
+//                                        modelContext.delete(calendar)
+//                                    } label: {
+//                                        Image(systemName: "trash")
+//                                    }
+//                                    Button {
+//                                        // TODO: Export
+//                                    } label: {
+//                                        Image(systemName: "square.and.arrow.up")
+//                                    }
+//                                }
+//                        }
+//                    }
+//                }
+//            }
+//            .navigationTitle("Your Calendars")
+//        }
+//    }
+//}
 struct CalendarListView: View {
     @Query var calendars: [CalendarModel]
     @Environment(\.modelContext) private var modelContext
@@ -26,7 +63,7 @@ struct CalendarListView: View {
                             Section {
                                 DisclosureGroup(calendar.name) {
                                     LazyVGrid(
-                                        columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: 3),
+                                        columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: 4),
                                         spacing: 20
                                     ) {
                                         ForEach(updatedDoors) { door in
@@ -63,16 +100,20 @@ struct CalendarListView: View {
                                 } label: {
                                     Image(systemName: "trash")
                                 }
+                                Button {
+                                    // TODO: Export
+                                } label: {
+                                    Image(systemName: "square.and.arrow.up")
+                                }
                             }
-                        }
                     }
                 }
             }
-            .navigationTitle("Your Calendars")
         }
+        .navigationTitle("Your Calendars")
     }
 }
-
+}
 
 #Preview {
     CalendarListView()

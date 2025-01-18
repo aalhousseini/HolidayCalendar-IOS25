@@ -102,6 +102,7 @@ struct CalendarCreateView: View {
                     }
                             
                     firstCalendarCreated = true
+                  //  NavigationLink(destination: CalendarListView())
                 } label: {
                     Text("Create Calendar")
                         .font(.custom("HelveticaNeue", size: 34))
