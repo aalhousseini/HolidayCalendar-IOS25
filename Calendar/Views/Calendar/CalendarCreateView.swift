@@ -3,7 +3,7 @@ import SwiftData
 
 struct CalendarCreateView: View {
     @State private var calendarName: String = ""
-    @State private var doors: [Door] = []
+    @State private var doors: [DoorModel] = []
     
     @AppStorage("firstCalendarCreated") private var firstCalendarCreated: Bool = false
     @AppStorage("timeleftToOpen") private var timeleftToOpen: String = ""
@@ -100,9 +100,12 @@ struct CalendarCreateView: View {
                     } catch {
                         print("Error saving calendar: \(error)")
                     }
-                            
+                    
+                    for door in newCalendar.doors {
+                        createDoorNotification(door: door)
+                    }
+                    
                     firstCalendarCreated = true
-                  //  NavigationLink(destination: CalendarListView())
                 } label: {
                     Text("Create Calendar")
                         .font(.custom("HelveticaNeue", size: 34))
@@ -122,7 +125,7 @@ struct CalendarCreateView: View {
     }
     
     private func addDoor() -> Void {
-        let newDoor = Door(
+        let newDoor = DoorModel(
             number: self.doors.count,
             unlockDate: Calendar.current.date(byAdding: .day, value: self.doors.count, to: Date())!,
             challenge: ChallengeLoader.loadRandomChallenge()

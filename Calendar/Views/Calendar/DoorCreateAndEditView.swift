@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct DoorCreateAndEditView: View {
-    @Binding var door: Door
+    @Binding var door: DoorModel
     
     var body: some View {
         Form {

@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct WelcomePage: View {
-    @AppStorage("firstLaunch")  var firstLaunch = true
+    @AppStorage("firstLaunch") var firstLaunch = true
     @State private var selectedTab = 0
     var body: some View {
-        NavigationView {
+        NavigationView {
             TabView(selection: $selectedTab) {
-                
                 ZStack {
                     Color.black
                         .ignoresSafeArea()
@@ -25,22 +24,22 @@ struct WelcomePage: View {
                         Text("Where you can find your fitness goals and plan your fitness holiday")
                             .foregroundColor(.white)
                             .padding()
-                        Button(action : {
+                        Button {
                             selectedTab = 1
-                            print("aba")
-                        }) {
+                        } label: {
                             Circle()
                                 .fill(Color.yellow)
                                 .frame(width: 60, height: 60)
-                                .overlay(
+                                .overlay {
                                     Image(systemName: "arrow.right")
                                         .foregroundColor(.black)
                                         .font(.title)
-                                )
+                                }
                                 .offset(x: 150, y: 180)
                         }
                     }
-                }.tag(0)
+                }
+                .tag(0)
                 ZStack {
                     Color.black
                         .ignoresSafeArea()
@@ -51,19 +50,17 @@ struct WelcomePage: View {
                             .padding()
                         Spacer()
                         ZStack {
-                            // Shapes with enough space between them
                             Capsule()
                                 .fill(Color.yellow)
                                 .frame(width: 120, height: 50)
-                                .overlay(
+                                .overlay {
                                     Text("One More Rep")
                                         .font(.custom("Georgia", size: 20))
                                         .foregroundColor(.black)
-                                )
+                                }
                                 .rotationEffect(.degrees(-15))
                                 .offset(x: -80, y: -70)
-                                .padding(.bottom,40 )
-                            
+                                .padding(.bottom, 40)
                             Ellipse()
                                 .fill(Color.white)
                                 .frame(width: 150, height: 70)
@@ -75,102 +72,87 @@ struct WelcomePage: View {
                                 .rotationEffect(.degrees(10))
                                 .offset(x: 50, y: -100)
                                 .padding(.bottom, 100)
-                            
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.white)
                                 .frame(width: 130, height: 50)
-                                .overlay(
+                                .overlay {
                                     Text("Workout Types")
                                         .font(.custom("Georgia", size: 20))
                                         .foregroundColor(.black)
-                                    
-                                )
+                                }
                                 .rotationEffect(.degrees(-5))
                                 .offset(x: -50, y: 10)
                                 .padding(.leading, 50)
                                 .padding(.bottom, 50)
-                            
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.blue)
                                 .frame(width: 100, height: 50)
-                                .overlay(
+                                .overlay {
                                     Text("Challenges")
                                         .font(.custom("Georgia", size: 20))
                                         .foregroundColor(.white)
-                                )
+                                }
                                 .rotationEffect(.degrees(5))
                                 .offset(x: -120, y: 50)
-                            
                             Capsule()
                                 .fill(Color.yellow)
                                 .frame(width: 120, height: 50)
-                                .overlay(
+                                .overlay {
                                     Text("15k Steps")
                                         .font(.custom("Georgia", size: 20))
                                         .foregroundColor(.black)
-                                )
+                                }
                                 .rotationEffect(.degrees(-10))
                                 .offset(x: 90, y: 60)
                                 .padding(.leading, 50)
                                 .padding(.bottom, 50)
-                            
-                            
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.white)
                                 .frame(width: 130, height: 50)
-                                .overlay(
+                                .overlay {
                                     Text("Streak: 5 Days")
                                         .font(.custom("Georgia", size: 20))
                                         .foregroundColor(.black)
-                                )
+                                }
                                 .rotationEffect(.degrees(15))
                                 .offset(x: 10, y: 100)
                                 .padding(.top, 100)
-                            
-                            
-                            
                             Circle()
                                 .fill(Color.red)
                                 .frame(width: 30, height: 30)
                                 .offset(x: -150, y: 170)
                                 .padding()
-                            
                             Circle()
                                 .fill(Color.blue)
                                 .frame(width: 20, height: 20)
                                 .offset(x: -100, y: 190)
-                            
-                            
                             VStack {
                                 Spacer()
                                 HStack {
                                     Spacer()
-                                    Button (action: {
+                                    Button {
                                         selectedTab = 2
-                                    }){
+                                    } label: {
                                         Circle()
                                             .fill(Color.yellow)
                                             .frame(width: 60, height: 60)
-                                            .overlay(
+                                            .padding(.trailing, 20)
+                                            .padding(.bottom, 20)
+                                            .overlay {
                                                 Image(systemName: "arrow.right")
                                                     .foregroundColor(.black)
                                                     .font(.title)
-                                            )
-                                            .padding(.trailing, 20) // Add padding from the edge
-                                            .padding(.bottom, 20)   // Add padding from the bottom
+                                            }
                                     }
                                 }
                             }
                         }
                         Spacer()
-                        
                     }
                     .padding()
-                    
-                }.tag(1)
-                
+                }
+                .tag(1)
                 ZStack {
-                    
                     VStack {
                         Text("READY FOR THE CHALLENGE?")
                             .font(.custom("Georgia", size: 36))
@@ -179,40 +161,35 @@ struct WelcomePage: View {
                         Text("Create now your fitness calendar and explore your goals in your favortie holiday")
                             .foregroundColor(.white)
                             .padding()
-                        
                     }
-                    // Bottom trailing button
                     VStack {
                         Spacer()
                         HStack {
                             Spacer()
-                            Button (action:{
+                            Button {
                                 selectedTab = 3
                                 checkNotificationSettings()
-                            }){
+                            } label: {
                                 Circle()
                                     .fill(Color.yellow)
                                     .frame(width: 60, height: 60)
-                                    .overlay(
+                                    .overlay {
                                         Image(systemName: "arrow.right")
                                             .foregroundColor(.black)
                                             .font(.title)
-                                    )
-                                    .padding(.trailing, 20) // Add padding from the edge
-                                    .padding(.bottom, 20)   // Add padding from the bottom
+                                    }
+                                    .padding(.trailing, 20)
+                                    .padding(.bottom, 20)
                             }
                         }
                     }
                 }
                 .tag(2)
                 ZStack{
-                    
                     VStack {
                         Image(.welcomepage)
                             .resizable()
                             .scaledToFit()
-                        
-                        
                         Text("Your journey \nbegins here. \nSign up or \nlog in \nto continue.")
                             .font(.custom("Georgia", size: 36))
                             .foregroundColor(.white)
@@ -262,9 +239,7 @@ struct WelcomePage: View {
             .preferredColorScheme(.dark)
             
     }
-//        .navigationTitle("")
-//        .navigationBarHidden(true)
-//        .toolbar(.hidden)
+
             
         }
 

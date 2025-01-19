@@ -12,9 +12,9 @@ class CalendarModel: Identifiable {
     @Attribute(.unique) var id: UUID = UUID()
     var name: String
     var startDate: Date
-    var doors: [Door]
+    var doors: [DoorModel]
 
-    init(name: String, startDate: Date, doors: [Door] = []) {
+    init(name: String, startDate: Date, doors: [DoorModel] = []) {
         self.name = name
         self.startDate = startDate
         self.doors = doors

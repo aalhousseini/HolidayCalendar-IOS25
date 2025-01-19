@@ -14,7 +14,7 @@ struct CalendarApp: App {
         let schema = Schema([
             User.self,
             CalendarModel.self,
-            Door.self,
+            DoorModel.self,
           
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
@@ -29,6 +29,9 @@ struct CalendarApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    checkNotificationSettings()
+                }
         }
         .modelContainer(sharedModelContainer)
     }

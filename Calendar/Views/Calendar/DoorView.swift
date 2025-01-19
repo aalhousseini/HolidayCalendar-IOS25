@@ -4,25 +4,16 @@
 //
 //  Created by Al Housseini, Ahmad on 11.01.25.
 //
-
-
-//
-//  DoorView.swift
-//  Holiday Calendar
-//
-//  Created by Al Housseini, Ahmad on 11.01.25.
-//
 import SwiftUI
 
 struct DoorView: View {
     @Environment(\.modelContext) private var modelContext
-    @Binding var door: Door
+    @Binding var door: DoorModel
+    
     @State private var showDetailView: Bool = false // For showing the detail view
     @State private var showContentEditor: Bool = false // For editing the door's data
     @State private var shakeOffset: CGFloat = 0
-    let canOpen: Bool
-    var onOpen: () -> Void
-
+    
     var body: some View {
         ZStack {
             if door.isLocked {
@@ -47,20 +38,19 @@ struct DoorView: View {
                 // Unlocked but unopened door
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 70, height: 70)
-                    .foregroundColor(canOpen ? .green : .yellow)
+                    .foregroundColor(!door.isLocked ? .green : .yellow)
                     .overlay(
                         VStack {
                             Text("\(door.number + 1)")
                                 .font(.largeTitle)
                                 .foregroundColor(.white)
-                            Text(canOpen ? "🔓 Tap to Open" : "🔓")
+                            Text(!door.isLocked ? "🔓 Tap to Open" : "🔓")
                                 .font(.caption)
                                 .foregroundColor(.white)
                         }
                     )
                     .onTapGesture {
-                        if canOpen {
-                            onOpen() // Handle the door opening logic
+                        if !door.isLocked {
                             showContentEditor = true
                         } else {
                             triggerShake()
@@ -121,17 +111,13 @@ struct DoorView: View {
 
 #Preview {
     let challenge = "Run 5km"
-    DoorView(door: .constant(Door(number: 1, unlockDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!, challenge: challenge)),
-             canOpen: true,
-             onOpen: { print("Door opened!") })
+    DoorView(door: .constant(DoorModel(number: 1, unlockDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!, challenge: challenge)))
 }
 
 
 #Preview {
     let challenge = "Run 5km"
-    DoorView(door: .constant(Door(number: 1, unlockDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!, challenge: challenge)),
-             canOpen: true,
-             onOpen: { print("Door opened!") })
+    DoorView(door: .constant(DoorModel(number: 1, unlockDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!, challenge: challenge)))
 }
 
 //import SwiftUI

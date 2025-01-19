@@ -9,22 +9,19 @@ import Foundation
 import SwiftData
 
 @Model
-class Door: Identifiable {
+class DoorModel: Identifiable {
     @Attribute(.unique) var id: UUID = UUID()
     var number: Int
     var unlockDate: Date
-    
     var isCompleted: Bool
-    
-    var isLocked: Bool {
-        return unlockDate > Date()
-    }
-    
     var quote: String?
     var image: Data?
     var challenge: String
-    
     @Relationship(inverse: \CalendarModel.doors) var calendar: CalendarModel?
+
+    var isLocked: Bool {
+        return unlockDate > Date()
+    }
     
     init(number: Int, unlockDate: Date, quote: String? = nil, image: Data? = nil, challenge: String, calendar: CalendarModel? = nil) {
         self.number = number

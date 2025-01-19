@@ -32,22 +32,11 @@ struct Mainpage: View {
                        Image(systemName: "calendar.badge.plus")
                        Text("Add")
                    }
-               
-               Text("Messages")
-                   .tabItem {
-                       Image(systemName: "bubble.left.and.bubble.right")
-                       Text("Messages")
-                   }
-               
-//               Profile()
-//                   .tabItem {
-//                       Image(systemName: "person.circle")
-//                       Text("Profile")
-//                   }
-           }.preferredColorScheme(.dark)
+           }
+           .preferredColorScheme(.dark)
         }
     }
-   }
+}
 
 #Preview {
     Mainpage()

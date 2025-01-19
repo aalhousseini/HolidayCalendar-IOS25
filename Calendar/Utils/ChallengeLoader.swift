@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct ChallengeInternal: Identifiable, Codable {
-    var id: Int
-    var text: String
-}
-
 struct ChallengeLoader {
     static func loadChallenges() -> [ChallengeInternal] {
         guard let url = Bundle.main.url(forResource: "challenges", withExtension: "json") else {
@@ -29,8 +24,6 @@ struct ChallengeLoader {
     }
     
     static func loadRandomChallenge() -> String {
-        let challenges = loadChallenges()
-        
-        return challenges.randomElement()?.text ?? ""
+        return loadChallenges().randomElement()?.text ?? ""
     }
 }

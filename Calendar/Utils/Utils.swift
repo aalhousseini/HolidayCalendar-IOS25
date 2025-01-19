@@ -8,6 +8,68 @@
 import Foundation
 import UserNotifications
 
+func exportCalendar(calendar: CalendarModel) -> Void {
+    do {
+        var calendarToEncode = CalendarCodable()
+        calendarToEncode.name = calendar.name
+        calendarToEncode.startDate = calendar.startDate
+        calendarToEncode.doors = []
+        
+        for door in calendar.doors {
+            var doorToEncode = DoorCodable()
+            doorToEncode.number = door.number
+            doorToEncode.unlockDate = door.unlockDate
+            doorToEncode.challenge = door.challenge
+            doorToEncode.isCompleted = false
+            
+            calendarToEncode.doors!.append(doorToEncode)
+        }
+        
+        let jsonEncoder = JSONEncoder()
+        let jsonData = try jsonEncoder.encode(calendarToEncode)
+    
+        let docFolder = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let destinationUrl = docFolder.appendingPathComponent("\(calendar.id)_export.json")
+
+        try jsonData.write(to: destinationUrl)
+    } catch {
+        fatalError(error.localizedDescription)
+    }
+}
+
+func importCalendar(url: URL) -> CalendarModel? {
+    do {
+        let data = try Data(contentsOf: url)
+
+        let object = try JSONDecoder().decode(CalendarCodable.self, from: data)
+        
+        guard let newCalendarName = object.name, let newCalendarStartDate = object.startDate, let newCalendarDoors = object.doors else {
+            fatalError()
+        }
+        
+        let newCalendarModel = CalendarModel(name: newCalendarName, startDate: newCalendarStartDate)
+        newCalendarModel.doors = []
+        
+        for door in newCalendarDoors {
+            guard let newNumner = door.number, let newUnlockDate = door.unlockDate, let newChallange = door.challenge else {
+                fatalError()
+            }
+            
+            let newDoorModel = DoorModel(number: newNumner, unlockDate: newUnlockDate, challenge: newChallange)
+            newDoorModel.calendar = newCalendarModel
+            
+            newCalendarModel.doors.append(newDoorModel)
+        }
+        
+        return newCalendarModel
+    } catch {
+        
+    }
+    
+    return nil
+    
+}
+
 func requestNotificationPermission() {
     let center = UNUserNotificationCenter.current()
     center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
@@ -48,7 +110,7 @@ func checkNotificationSettings() {
     }
 }
 
-func createDoorNotification(door: Door) -> Void {
+func createDoorNotification(door: DoorModel) -> Void {
     let content = UNMutableNotificationContent()
     content.title = "New Door"
     content.body = "You can open a new Door in \(door.calendar?.name ?? "a calendar")"

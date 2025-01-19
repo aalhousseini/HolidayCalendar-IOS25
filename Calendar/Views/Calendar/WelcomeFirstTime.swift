@@ -15,13 +15,15 @@ struct WelcomeFirstTime: View {
     @State private var fifthtextVisible = false
     @State private var sxithtextVisible = false
     @State private var seventhtextVisible = false
+    
     @Binding var selectedTab: Int
+    
     var onCompletion: () -> Void
     
     var body: some View {
             TabView(selection: $selectedTab) {
                 ZStack {
-                    VStack{
+                    VStack {
                         Text("So now let's start with the fun part. ")
                             .font(.custom("HelveticaNeue", size: 54))
                             .foregroundColor(.white)
@@ -40,8 +42,7 @@ struct WelcomeFirstTime: View {
                     }
                 }
                 ZStack {
-
-                        VStack{
+                        VStack {
                             Text("We need to make sure that we have a good schedule. ")
                                 .font(.custom("HelveticaNeue", size: 54))
                                 .foregroundColor(.white)
@@ -59,17 +60,14 @@ struct WelcomeFirstTime: View {
                             }
                         }
                     }
-
                     ZStack {
-
-                        VStack{
+                        VStack {
                             Text("You can specify how long your calendar should be. ")
                                 .font(.custom("HelveticaNeue", size: 54))
                                 .foregroundColor(.white)
                                 .opacity(thirdtextVisible ? 1 : 0)
                                 .animation(.easeInOut(duration: 3), value: thirdtextVisible)
                                 .padding()
-
                         }
                     }
                     .tag(2)
@@ -82,7 +80,7 @@ struct WelcomeFirstTime: View {
                         }
                     }
                     ZStack {
-                        VStack{
+                        VStack {
                             Text("Each day you can open one door. Each door has a different challenge.  ")
                                 .font(.custom("HelveticaNeue", size: 54))
                                 .foregroundColor(.white)
@@ -101,14 +99,13 @@ struct WelcomeFirstTime: View {
                         }
                     }
                     ZStack {
-                        VStack{
-                            Text("When you complete your challenge you can attach a photo , a quote , or you can write a note to your door.  ")
+                        VStack {
+                            Text("When you complete your challenge you can attach a photo , a quote , or you can write a note to your door.")
                                 .font(.custom("HelveticaNeue", size: 54))
                                 .foregroundColor(.white)
                                 .opacity(fifthtextVisible ? 1 : 0)
                                 .animation(.easeInOut(duration: 3), value: fifthtextVisible)
                                 .padding()
-
                         }
                     }
                     .tag(4)
@@ -121,14 +118,13 @@ struct WelcomeFirstTime: View {
                         }
                     }
                     ZStack {
-                        VStack{
+                        VStack {
                             Text("When you are done with your challenge you can share it with your friends and family.")
                                 .font(.custom("HelveticaNeue", size: 54))
                                 .foregroundColor(.white)
                                 .opacity(sxithtextVisible ? 1 : 0)
                                 .animation(.easeInOut(duration: 3), value: sxithtextVisible)
                                 .padding()
-
                             Spacer()
                             HStack {
                                 Text("Interesting ? Lets' do it")
@@ -138,17 +134,17 @@ struct WelcomeFirstTime: View {
                                     .padding()
                                 Spacer()
                                 if seventhtextVisible {
-                                    Button (action: {
+                                    Button {
                                         selectedTab = 6
-                                    }){
+                                    } label: {
                                         Circle()
                                             .fill(Color.yellow)
                                             .frame(width: 60, height: 60)
-                                            .overlay(
+                                            .overlay {
                                                 Image(systemName: "arrow.right")
                                                     .foregroundColor(.black)
                                                     .font(.title)
-                                            )
+                                            }
                                             .padding(.trailing, 20) // Add padding from the edge
                                             .padding(.bottom, 20)   // Add padding from the bottom
                                     }
@@ -163,7 +159,6 @@ struct WelcomeFirstTime: View {
                             withAnimation {
                                 seventhtextVisible = true
                                 onCompletion()
-
                             }
                         }
 
