@@ -10,7 +10,8 @@ import SwiftData
 struct CalendarListView: View {
     @Query var calendars: [CalendarModel]
     @Environment(\.modelContext) private var modelContext
-
+    @State private var timeLeftForNextDoor: String = ""
+    @State private var timer: Timer? = nil
     @State private var showImportSheet: Bool = false
     
     var body: some View {
@@ -25,7 +26,7 @@ struct CalendarListView: View {
                         ForEach(calendars) { calendar in
                             Section {
                                 DisclosureGroup(calendar.name) {
-                                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: 4), spacing: 20) {
+                                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: 3), spacing: 20) {
                                         ForEach(calendar.doors) { door in
                                             DoorView(door: .constant(door))
                                         }
@@ -88,7 +89,37 @@ struct CalendarListView: View {
             .navigationTitle("Your Calendars")
         }
     }
-}
+    
+    private func startCountdown(for door: DoorModel) {
+        timer?.invalidate() // Stop any existing timer
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            let now = Date()
+            if door.unlockDate > now {
+                let components = Calendar.current.dateComponents([.hour, .minute, .second], from: now, to: door.unlockDate)
+                timeLeftForNextDoor = "\(components.day ?? 0)d \(components.hour ?? 0)h \(components.minute ?? 0)m \(components.second ?? 0)s"
+            } else {
+                timeLeftForNextDoor = "Unlocked"
+                timer?.invalidate() // Stop the timer when the door is unlocked
+            }
+        }
+    }
+    
+    private func handleImport(fileUrl: [URL]) {
+        do {
+            guard let url = fileUrl.first else { return }
+            if let importedCalendar = importCalendar(url: url) {
+                modelContext.insert(importedCalendar)
+                try modelContext.save()
+                
+                for door in importedCalendar.doors {
+                    createDoorNotification(door: door)
+                }
+            }
+        } catch {
+            print("Failed to import calendar: \(error)")
+        }
+    }}
 
 #Preview {
     CalendarListView()

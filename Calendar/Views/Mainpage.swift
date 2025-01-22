@@ -11,9 +11,9 @@ struct Mainpage: View {
     @AppStorage("firstLaunch")  var firstLaunch = false
     
     var body: some View {
-        if firstLaunch {
-            WelcomePage()
-        } else {
+//        if firstLaunch {
+//            WelcomePage()
+//        } else {
            TabView {
                Home()
                    .tabItem {
@@ -36,7 +36,7 @@ struct Mainpage: View {
            .preferredColorScheme(.dark)
         }
     }
-}
+//}
 
 #Preview {
     Mainpage()

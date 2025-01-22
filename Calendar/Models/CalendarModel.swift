@@ -20,3 +20,13 @@ class CalendarModel: Identifiable {
         self.doors = doors
     }
 }
+
+extension Array where Element == CalendarModel {
+    var nextDoorToUnlock: DoorModel? {
+        self.flatMap { $0.doors } // Combine all doors from all calendars
+            .filter { $0.isLocked } // Keep only locked doors
+            .sorted { $0.unlockDate < $1.unlockDate } // Sort by unlockDate
+            .first // Get the earliest unlockDate
+    }
+}
+

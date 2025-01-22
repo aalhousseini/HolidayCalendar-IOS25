@@ -6,11 +6,69 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4628F4DB2D41913F000010F2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4628F4DA2D41913E000010F2 /* WidgetKit.framework */; };
+		4628F4DD2D41913F000010F2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4628F4DC2D41913F000010F2 /* SwiftUI.framework */; };
+		4628F4EE2D419141000010F2 /* HolidayCalendarWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4628F4D82D41913E000010F2 /* HolidayCalendarWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4628F4EC2D419141000010F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 463E61222D328ED5000E255C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4628F4D72D41913E000010F2;
+			remoteInfo = HolidayCalendarWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4628F4EF2D419141000010F2 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4628F4EE2D419141000010F2 /* HolidayCalendarWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		4628F4D82D41913E000010F2 /* HolidayCalendarWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HolidayCalendarWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4628F4DA2D41913E000010F2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		4628F4DC2D41913F000010F2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		463E612A2D328ED5000E255C /* Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4628F5112D4192A0000010F2 /* Exceptions for "HolidayCalendarWidget" folder in "Calendar" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppIntent.swift,
+				Assets.xcassets,
+				HolidayCalendarWidget.swift,
+				HolidayCalendarWidgetBundle.swift,
+				HolidayCalendarWidgetControl.swift,
+				HolidayCalendarWidgetLiveActivity.swift,
+				Info.plist,
+			);
+			target = 463E61292D328ED5000E255C /* Calendar */;
+		};
+		4628F5122D4192A0000010F2 /* Exceptions for "HolidayCalendarWidget" folder in "HolidayCalendarWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppIntent.swift,
+				Assets.xcassets,
+				HolidayCalendarWidget.swift,
+				HolidayCalendarWidgetBundle.swift,
+				HolidayCalendarWidgetControl.swift,
+				HolidayCalendarWidgetLiveActivity.swift,
+			);
+			target = 4628F4D72D41913E000010F2 /* HolidayCalendarWidgetExtension */;
+		};
 		5535B7702D3D193D005810E1 /* Exceptions for "Calendar" folder in "Calendar" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -21,6 +79,15 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		4628F50A2D4192A0000010F2 /* HolidayCalendarWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4628F5112D4192A0000010F2 /* Exceptions for "HolidayCalendarWidget" folder in "Calendar" target */,
+				4628F5122D4192A0000010F2 /* Exceptions for "HolidayCalendarWidget" folder in "HolidayCalendarWidgetExtension" target */,
+			);
+			path = HolidayCalendarWidget;
+			sourceTree = "<group>";
+		};
 		463E612C2D328ED5000E255C /* Calendar */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,6 +99,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4628F4D52D41913E000010F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4628F4DD2D41913F000010F2 /* SwiftUI.framework in Frameworks */,
+				4628F4DB2D41913F000010F2 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		463E61272D328ED5000E255C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -42,11 +118,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4628F4D92D41913E000010F2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4628F4DA2D41913E000010F2 /* WidgetKit.framework */,
+				4628F4DC2D41913F000010F2 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		463E61212D328ED5000E255C = {
 			isa = PBXGroup;
 			children = (
 				463E612C2D328ED5000E255C /* Calendar */,
+				4628F4D92D41913E000010F2 /* Frameworks */,
 				463E612B2D328ED5000E255C /* Products */,
+				4628F50A2D4192A0000010F2 /* HolidayCalendarWidget */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				463E612A2D328ED5000E255C /* Calendar.app */,
+				4628F4D82D41913E000010F2 /* HolidayCalendarWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +149,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4628F4D72D41913E000010F2 /* HolidayCalendarWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4628F4F22D419141000010F2 /* Build configuration list for PBXNativeTarget "HolidayCalendarWidgetExtension" */;
+			buildPhases = (
+				4628F4D42D41913E000010F2 /* Sources */,
+				4628F4D52D41913E000010F2 /* Frameworks */,
+				4628F4D62D41913E000010F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HolidayCalendarWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = HolidayCalendarWidgetExtension;
+			productReference = 4628F4D82D41913E000010F2 /* HolidayCalendarWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		463E61292D328ED5000E255C /* Calendar */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 463E613A2D328ED7000E255C /* Build configuration list for PBXNativeTarget "Calendar" */;
@@ -68,12 +175,15 @@
 				463E61262D328ED5000E255C /* Sources */,
 				463E61272D328ED5000E255C /* Frameworks */,
 				463E61282D328ED5000E255C /* Resources */,
+				4628F4EF2D419141000010F2 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4628F4ED2D419141000010F2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				4628F50A2D4192A0000010F2 /* HolidayCalendarWidget */,
 				463E612C2D328ED5000E255C /* Calendar */,
 			);
 			name = Calendar;
@@ -93,6 +203,9 @@
 				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
+					4628F4D72D41913E000010F2 = {
+						CreatedOnToolsVersion = 16.1;
+					};
 					463E61292D328ED5000E255C = {
 						CreatedOnToolsVersion = 16.1;
 					};
@@ -113,11 +226,19 @@
 			projectRoot = "";
 			targets = (
 				463E61292D328ED5000E255C /* Calendar */,
+				4628F4D72D41913E000010F2 /* HolidayCalendarWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4628F4D62D41913E000010F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		463E61282D328ED5000E255C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +249,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4628F4D42D41913E000010F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		463E61262D328ED5000E255C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +265,67 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4628F4ED2D419141000010F2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4628F4D72D41913E000010F2 /* HolidayCalendarWidgetExtension */;
+			targetProxy = 4628F4EC2D419141000010F2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		4628F4F02D419141000010F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HolidayCalendarWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HolidayCalendarWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "group12.ios-24.Calendar.HolidayCalendarWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4628F4F12D419141000010F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HolidayCalendarWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HolidayCalendarWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "group12.ios-24.Calendar.HolidayCalendarWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		463E61382D328ED7000E255C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -266,6 +454,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Calendar/Preview Content\"";
+				DEVELOPMENT_TEAM = VA87NRGXNA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Calendar/Info.plist;
@@ -296,6 +485,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Calendar/Preview Content\"";
+				DEVELOPMENT_TEAM = VA87NRGXNA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Calendar/Info.plist;
@@ -320,6 +510,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4628F4F22D419141000010F2 /* Build configuration list for PBXNativeTarget "HolidayCalendarWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4628F4F02D419141000010F2 /* Debug */,
+				4628F4F12D419141000010F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		463E61252D328ED5000E255C /* Build configuration list for PBXProject "Calendar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
