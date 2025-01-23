@@ -62,7 +62,11 @@ struct DoorView: View {
                             showDetailView = true
                         }
                     }) {
-                        ContentEditorView(door: $door)
+                        if !door.isImported {
+                            ContentEditorView(door: $door)
+                        } else {
+                            Text("Imported doors cannot be edited.")
+                        }
                     }
             } else {
                 // Completed door

@@ -25,13 +25,18 @@ struct CalendarListView: View {
                     List {
                         ForEach(calendars) { calendar in
                             Section {
-                                DisclosureGroup(calendar.name) {
+                                DisclosureGroup {
                                     LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: 3), spacing: 20) {
                                         ForEach(calendar.doors) { door in
                                             DoorView(door: .constant(door))
                                         }
                                     }
                                     .padding(.horizontal, 20)
+                                } label: {
+                                    if calendar.isImported {
+                                        Image(systemName: "square.and.arrow.down")
+                                    }
+                                    Text(calendar.name)
                                 }
                             }
                             .swipeActions {
@@ -40,10 +45,13 @@ struct CalendarListView: View {
                                 } label: {
                                     Image(systemName: "trash")
                                 }
-                                Button {
-                                    exportCalendar(calendar: calendar)
-                                } label: {
-                                    Image(systemName: "square.and.arrow.up")
+                                
+                                if !calendar.isImported {
+                                    Button {
+                                        exportCalendar(calendar: calendar)
+                                    } label: {
+                                        Image(systemName: "square.and.arrow.up")
+                                    }
                                 }
                             }
                         }

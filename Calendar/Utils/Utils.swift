@@ -49,6 +49,7 @@ func importCalendar(url: URL) -> CalendarModel? {
         
         let newCalendarModel = CalendarModel(name: newCalendarName, startDate: newCalendarStartDate)
         newCalendarModel.doors = []
+        newCalendarModel.isImported = true
         
         for door in newCalendarDoors {
             guard let newNumner = door.number, let newUnlockDate = door.unlockDate, let newChallange = door.challenge else {
@@ -57,6 +58,7 @@ func importCalendar(url: URL) -> CalendarModel? {
             
             let newDoorModel = DoorModel(number: newNumner, unlockDate: newUnlockDate, challenge: newChallange)
             newDoorModel.calendar = newCalendarModel
+            newDoorModel.isImported = true
             
             newCalendarModel.doors.append(newDoorModel)
         }

@@ -18,7 +18,8 @@ class DoorModel: Identifiable {
     var image: Data?
     var challenge: String
     @Relationship(inverse: \CalendarModel.doors) var calendar: CalendarModel?
-
+    var isImported: Bool = false
+    
     var isLocked: Bool {
         return unlockDate > Date()
     }

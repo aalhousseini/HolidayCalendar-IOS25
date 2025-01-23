@@ -13,6 +13,7 @@ class CalendarModel: Identifiable {
     var name: String
     var startDate: Date
     var doors: [DoorModel]
+    var isImported: Bool = false
 
     init(name: String, startDate: Date, doors: [DoorModel] = []) {
         self.name = name
