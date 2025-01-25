@@ -65,7 +65,7 @@ struct DetailView: View {
             }
         }
         .onAppear {
-             withAnimation(.easeInOut(duration: 0.5)) {
+             withAnimation(.easeInOut(duration: 0.8)) {
                  isVisible = true // Trigger animation
              }
          }

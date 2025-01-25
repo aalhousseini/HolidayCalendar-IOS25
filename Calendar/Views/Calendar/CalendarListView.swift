@@ -17,6 +17,7 @@ struct CalendarListView: View {
     @State private var isVisible: Bool = false
     @State private var showAlert: Bool = false // Track alert visibility
     @State private var alertMessage: String = ""
+    @State private var alertTitle: String = ""
     
     var body: some View {
         NavigationView {
@@ -47,7 +48,12 @@ struct CalendarListView: View {
                             }
                             .swipeActions {
                                 Button(role: .destructive) {
+                                    
+                                    alertTitle = "Calendar Deleted"
+                                    alertMessage = "The calendar '\(calendar.name)' has been successfully deleted."
+                                    showAlert = true
                                     modelContext.delete(calendar)
+                                   // deleteCalendar(calendar)
                                 } label: {
                                     Image(systemName: "trash")
                                 }
@@ -55,8 +61,8 @@ struct CalendarListView: View {
                                 if !calendar.isImported {
                                     Button {
                                         exportCalendar(calendar: calendar)
+                                        alertTitle = "Calendar Exported"
                                         alertMessage = "Calendar '\(calendar.name)' has been successfully exported."
-                                        print("Alertttttt")
                                         showAlert = true
 
                                     } label: {
@@ -67,11 +73,19 @@ struct CalendarListView: View {
                         }
                     }
                 }
-            }    .onAppear {
+            } .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text(alertTitle),
+                    message: Text(alertMessage),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+            .onAppear {
                 // Actions to perform when the view appears
-                withAnimation(.easeInOut(duration: 0.5)) {
+                withAnimation(.easeInOut(duration: 2)) {
                     isVisible = true
                 }
+                
                 print("CalendarListView appeared!")
             }
             .onDisappear {
@@ -112,16 +126,25 @@ struct CalendarListView: View {
                             print(error)
                         }
                     }
-                }
+                } 
             }
-            .alert(isPresented: $showAlert) {
-                            Alert(
-                                title: Text("Export Successful"),
-                                message: Text(alertMessage),
-                                dismissButton: .default(Text("OK"))
-                            )
-                        }
                         .navigationTitle("Your Calendars")
+        }
+    }
+    private func deleteCalendar(_ calendar: CalendarModel) {
+        modelContext.delete(calendar)
+        print("Calendar \(calendar.name)")
+        do {
+            try modelContext.save()
+            alertTitle = "Calendar Deleted"
+            alertMessage = "The calendar '\(calendar.name)' has been successfully deleted."
+            showAlert = true
+            print("Delete successful, showAlert: \(showAlert)") // Debugging
+        } catch {
+            alertTitle = "Delete Failed"
+            alertMessage = "An error occurred while deleting the calendar."
+            showAlert = true
+            print("Error deleting calendar: \(error.localizedDescription)") // Debugging
         }
     }
     
