@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailView: View {
     var door : DoorModel
-    
+    @State private var isVisible: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -19,11 +19,15 @@ struct DetailView: View {
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
+                    .opacity(isVisible ? 1 : 0) // Fade-in animation
+                    .animation(.easeInOut(duration: 0.3), value: isVisible)
             } else {
                 Image(uiImage: .mediation)
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
+                    .opacity(isVisible ? 1 : 0) // Fade-in animation
+                    .animation(.easeInOut(duration: 0.3), value: isVisible)
             }
             VStack {
                 Spacer()
@@ -37,12 +41,17 @@ struct DetailView: View {
                             .foregroundColor(.white)
                             .multilineTextAlignment(.leading)
                             .lineLimit(nil)
+                            .opacity(isVisible ? 1 : 0) // Fade-in animation
+                            .animation(.easeInOut(duration: 0.3).delay(0.1), value: isVisible)
+
 
                         Text(door.quote ?? ""  )
                             .font(.body)
                             .foregroundColor(.white)
                             .multilineTextAlignment(.leading)
                             .lineLimit(nil)
+                            .opacity(isVisible ? 1 : 0) // Fade-in animation
+                                                        .animation(.easeInOut(duration: 0.3).delay(0.2), value: isVisible)
                     }
                     .frame(minWidth: 400, maxWidth: 400)
                     .padding()
@@ -55,8 +64,16 @@ struct DetailView: View {
                 }
             }
         }
-    }
-}
+        .onAppear {
+             withAnimation(.easeInOut(duration: 0.5)) {
+                 isVisible = true // Trigger animation
+             }
+         }
+         .onDisappear {
+             isVisible = false // Reset state when dismissed
+         }
+     }
+ }
 
 #Preview {
     let door =  DoorModel(number: 1, unlockDate: Date(), challenge: "Challange")

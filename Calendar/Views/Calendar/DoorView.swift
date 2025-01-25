@@ -10,6 +10,8 @@ struct DoorView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var door: DoorModel
     
+   
+    @State private var animateOpacity: Bool = false
     @State private var showDetailView: Bool = false // For showing the detail view
     @State private var showContentEditor: Bool = false // For editing the door's data
     @State private var shakeOffset: CGFloat = 0
@@ -84,7 +86,9 @@ struct DoorView: View {
                         }
                     )
                     .onTapGesture {
-                        showDetailView = true // Show detail view for completed doors
+                        withAnimation(.easeInOut(duration: 0.8)) {
+                            showDetailView = true // Show detail view
+                        }
                     }
                     .sheet(isPresented: $showDetailView) {
                         DetailView(door: door)
@@ -112,12 +116,6 @@ struct DoorView: View {
         }
     }
 }
-
-#Preview {
-    let challenge = "Run 5km"
-    DoorView(door: .constant(DoorModel(number: 1, unlockDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!, challenge: challenge)))
-}
-
 
 #Preview {
     let challenge = "Run 5km"

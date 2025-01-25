@@ -8,11 +8,15 @@ import SwiftUI
 import SwiftData
 
 struct CalendarListView: View {
+   
     @Query var calendars: [CalendarModel]
     @Environment(\.modelContext) private var modelContext
     @State private var timeLeftForNextDoor: String = ""
     @State private var timer: Timer? = nil
     @State private var showImportSheet: Bool = false
+    @State private var isVisible: Bool = false
+    @State private var showAlert: Bool = false // Track alert visibility
+    @State private var alertMessage: String = ""
     
     var body: some View {
         NavigationView {
@@ -21,6 +25,8 @@ struct CalendarListView: View {
                     Text("No calendars found.")
                         .font(.headline)
                         .foregroundColor(.secondary)
+                        .opacity(isVisible ? 1 : 0) // Animate opacity
+                        .animation(.easeInOut(duration: 0.5), value: isVisible)
                 } else {
                     List {
                         ForEach(calendars) { calendar in
@@ -49,6 +55,10 @@ struct CalendarListView: View {
                                 if !calendar.isImported {
                                     Button {
                                         exportCalendar(calendar: calendar)
+                                        alertMessage = "Calendar '\(calendar.name)' has been successfully exported."
+                                        print("Alertttttt")
+                                        showAlert = true
+
                                     } label: {
                                         Image(systemName: "square.and.arrow.up")
                                     }
@@ -57,6 +67,17 @@ struct CalendarListView: View {
                         }
                     }
                 }
+            }    .onAppear {
+                // Actions to perform when the view appears
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    isVisible = true
+                }
+                print("CalendarListView appeared!")
+            }
+            .onDisappear {
+                // Reset the visibility or other states when the view disappears
+                isVisible = false
+                timer?.invalidate() // Stop any running timers
             }
             .toolbar {
                 ToolbarItem {
@@ -93,8 +114,14 @@ struct CalendarListView: View {
                     }
                 }
             }
-            
-            .navigationTitle("Your Calendars")
+            .alert(isPresented: $showAlert) {
+                            Alert(
+                                title: Text("Export Successful"),
+                                message: Text(alertMessage),
+                                dismissButton: .default(Text("OK"))
+                            )
+                        }
+                        .navigationTitle("Your Calendars")
         }
     }
     
