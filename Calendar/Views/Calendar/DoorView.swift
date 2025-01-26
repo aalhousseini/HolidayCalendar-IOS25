@@ -58,18 +58,38 @@ struct DoorView: View {
                             triggerShake()
                         }
                     }
+//                    .sheet(isPresented: $showContentEditor, onDismiss: {
+//                        // Check the door's state after closing the content editor
+//                        if door.isCompleted {
+//                            showDetailView = true
+//                        }
+//                    }) {
+//                        if !door.isImported {
+//                            ContentEditorView(door: $door)
+//                        } else {
+//                            DetailView(door: door)
+//                        }
+//                    }
                     .sheet(isPresented: $showContentEditor, onDismiss: {
                         // Check the door's state after closing the content editor
                         if door.isCompleted {
                             showDetailView = true
                         }
                     }) {
+                        // Show ContentEditorView only if the door is not imported
                         if !door.isImported {
                             ContentEditorView(door: $door)
                         } else {
                             DetailView(door: door)
                         }
                     }
+                    .sheet(isPresented: $showDetailView) {
+                        // Show DetailView if the door is completed or imported
+                        DetailView(door: door)
+                    }
+
+
+
             } else {
                 // Completed door
                 RoundedRectangle(cornerRadius: 10)

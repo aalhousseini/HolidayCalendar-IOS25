@@ -132,17 +132,27 @@ struct WelcomePage: View {
                                     Spacer()
                                     Button {
                                         selectedTab = 2
+                                        
                                     } label: {
+//                                        Circle()
+//                                            .fill(Color.yellow)
+//                                            .frame(width: 60, height: 60)
+//                                            .padding(.trailing, 20)
+//                                            .padding(.bottom, 20)
+//                                            .overlay {
+//                                                Image(systemName: "arrow.right")
+//                                                    .foregroundColor(.black)
+//                                                    .font(.title)
+//                                            }
                                         Circle()
                                             .fill(Color.yellow)
                                             .frame(width: 60, height: 60)
-                                            .padding(.trailing, 20)
-                                            .padding(.bottom, 20)
                                             .overlay {
                                                 Image(systemName: "arrow.right")
                                                     .foregroundColor(.black)
                                                     .font(.title)
                                             }
+                                        
                                     }
                                 }
                             }

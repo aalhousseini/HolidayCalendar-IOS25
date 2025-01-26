@@ -51,7 +51,7 @@ struct DetailView: View {
                             .multilineTextAlignment(.leading)
                             .lineLimit(nil)
                             .opacity(isVisible ? 1 : 0) // Fade-in animation
-                                                        .animation(.easeInOut(duration: 0.3).delay(0.2), value: isVisible)
+                            .animation(.easeInOut(duration: 0.3).delay(0.2), value: isVisible)
                     }
                     .frame(minWidth: 400, maxWidth: 400)
                     .padding()
@@ -70,7 +70,9 @@ struct DetailView: View {
              }
          }
          .onDisappear {
-             isVisible = false // Reset state when dismissed
+             withAnimation(.easeInOut(duration: 0.5)) {
+                            isVisible = false
+                        }
          }
      }
  }

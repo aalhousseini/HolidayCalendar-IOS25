@@ -9,10 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @AppStorage("isLoggedIn")  var isLoggedIn = false
+    @AppStorage("isLoggedIn") private var isLoggedIn = false
+    @AppStorage("firstLaunch") private var firstLaunch = true
 
     var body: some View {
-        if(isLoggedIn) {
+        if firstLaunch {
+            WelcomePage()
+        } else if isLoggedIn {
             Mainpage()
         } else {
             LogIn()

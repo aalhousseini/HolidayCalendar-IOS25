@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct Mainpage: View {
-    @AppStorage("firstLaunch")  var firstLaunch = true
+    @AppStorage("firstCalendar")  var firstCalendar = true
+    @AppStorage("isLoggedIn")  var isLoggedIn = false
     @State private var selectedTab: Int = 0
     
     var body: some View {
-        if firstLaunch {
-            WelcomePage()
-        } else {
+//        if firstLaunch {
+//            WelcomePage()
+//        } else if isLoggedIn {
         TabView(selection: $selectedTab) {
                Home()
                    .tabItem {
@@ -29,17 +30,21 @@ struct Mainpage: View {
                        Text("Calendar")
                    }
                    .tag(1)
-               CalendarCreateView(selectedTab: $selectedTab)
-                   .tabItem {
-                       Image(systemName: "calendar.badge.plus")
-                       Text("Add")
-                   }
-                   .tag(2)
-           }
+           
+                //CalendarCreateView(selectedTab: $selectedTab)
+                    CalendarMain()
+                    .tabItem {
+                        Image(systemName: "calendar.badge.plus")
+                        Text("Add")
+                    }
+                    .tag(2)
+            }
+             
+           
            .preferredColorScheme(.dark)
         }
     }
-}
+//}
 
 #Preview {
     Mainpage()

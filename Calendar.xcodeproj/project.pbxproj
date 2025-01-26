@@ -6,6 +6,22 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		46C64C722D46B16E000C3D42 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46C64C712D46B16E000C3D42 /* WidgetKit.framework */; };
+		46C64C732D46B16E000C3D42 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4628F4DC2D41913F000010F2 /* SwiftUI.framework */; };
+		46C64C842D46B170000C3D42 /* TimeLeftWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 46C64C702D46B16E000C3D42 /* TimeLeftWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		46C64C822D46B170000C3D42 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 463E61222D328ED5000E255C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 46C64C6F2D46B16E000C3D42;
+			remoteInfo = TimeLeftWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		4628F4EF2D419141000010F2 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -13,6 +29,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				46C64C842D46B170000C3D42 /* TimeLeftWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -21,16 +38,25 @@
 
 /* Begin PBXFileReference section */
 		4628F4DC2D41913F000010F2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		463E612A2D328ED5000E255C /* Calendar_1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar_1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		463E612A2D328ED5000E255C /* Unlock Fit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Unlock Fit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		46C64C702D46B16E000C3D42 /* TimeLeftWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TimeLeftWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		46C64C712D46B16E000C3D42 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5535B7702D3D193D005810E1 /* Exceptions for "Calendar" folder in "Calendar_1" target */ = {
+		46C64C882D46B170000C3D42 /* Exceptions for "TimeLeftWidget" folder in "TimeLeftWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 463E61292D328ED5000E255C /* Calendar_1 */;
+			target = 46C64C6F2D46B16E000C3D42 /* TimeLeftWidgetExtension */;
+		};
+		5535B7702D3D193D005810E1 /* Exceptions for "Calendar" folder in "Unlock Fit" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 463E61292D328ED5000E255C /* Unlock Fit */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -38,9 +64,17 @@
 		463E612C2D328ED5000E255C /* Calendar */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5535B7702D3D193D005810E1 /* Exceptions for "Calendar" folder in "Calendar_1" target */,
+				5535B7702D3D193D005810E1 /* Exceptions for "Calendar" folder in "Unlock Fit" target */,
 			);
 			path = Calendar;
+			sourceTree = "<group>";
+		};
+		46C64C742D46B16E000C3D42 /* TimeLeftWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				46C64C882D46B170000C3D42 /* Exceptions for "TimeLeftWidget" folder in "TimeLeftWidgetExtension" target */,
+			);
+			path = TimeLeftWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -53,6 +87,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		46C64C6D2D46B16E000C3D42 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46C64C732D46B16E000C3D42 /* SwiftUI.framework in Frameworks */,
+				46C64C722D46B16E000C3D42 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -60,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				4628F4DC2D41913F000010F2 /* SwiftUI.framework */,
+				46C64C712D46B16E000C3D42 /* WidgetKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -68,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				463E612C2D328ED5000E255C /* Calendar */,
+				46C64C742D46B16E000C3D42 /* TimeLeftWidget */,
 				4628F4D92D41913E000010F2 /* Frameworks */,
 				463E612B2D328ED5000E255C /* Products */,
 			);
@@ -76,7 +121,8 @@
 		463E612B2D328ED5000E255C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				463E612A2D328ED5000E255C /* Calendar_1.app */,
+				463E612A2D328ED5000E255C /* Unlock Fit.app */,
+				46C64C702D46B16E000C3D42 /* TimeLeftWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,9 +130,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		463E61292D328ED5000E255C /* Calendar_1 */ = {
+		463E61292D328ED5000E255C /* Unlock Fit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 463E613A2D328ED7000E255C /* Build configuration list for PBXNativeTarget "Calendar_1" */;
+			buildConfigurationList = 463E613A2D328ED7000E255C /* Build configuration list for PBXNativeTarget "Unlock Fit" */;
 			buildPhases = (
 				463E61262D328ED5000E255C /* Sources */,
 				463E61272D328ED5000E255C /* Frameworks */,
@@ -96,16 +142,39 @@
 			buildRules = (
 			);
 			dependencies = (
+				46C64C832D46B170000C3D42 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				463E612C2D328ED5000E255C /* Calendar */,
 			);
-			name = Calendar_1;
+			name = "Unlock Fit";
 			packageProductDependencies = (
 			);
 			productName = Calendar;
-			productReference = 463E612A2D328ED5000E255C /* Calendar_1.app */;
+			productReference = 463E612A2D328ED5000E255C /* Unlock Fit.app */;
 			productType = "com.apple.product-type.application";
+		};
+		46C64C6F2D46B16E000C3D42 /* TimeLeftWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 46C64C852D46B170000C3D42 /* Build configuration list for PBXNativeTarget "TimeLeftWidgetExtension" */;
+			buildPhases = (
+				46C64C6C2D46B16E000C3D42 /* Sources */,
+				46C64C6D2D46B16E000C3D42 /* Frameworks */,
+				46C64C6E2D46B16E000C3D42 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				46C64C742D46B16E000C3D42 /* TimeLeftWidget */,
+			);
+			name = TimeLeftWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = TimeLeftWidgetExtension;
+			productReference = 46C64C702D46B16E000C3D42 /* TimeLeftWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -118,6 +187,9 @@
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					463E61292D328ED5000E255C = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					46C64C6F2D46B16E000C3D42 = {
 						CreatedOnToolsVersion = 16.1;
 					};
 				};
@@ -136,13 +208,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				463E61292D328ED5000E255C /* Calendar_1 */,
+				463E61292D328ED5000E255C /* Unlock Fit */,
+				46C64C6F2D46B16E000C3D42 /* TimeLeftWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		463E61282D328ED5000E255C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46C64C6E2D46B16E000C3D42 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -159,7 +239,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		46C64C6C2D46B16E000C3D42 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		46C64C832D46B170000C3D42 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 46C64C6F2D46B16E000C3D42 /* TimeLeftWidgetExtension */;
+			targetProxy = 46C64C822D46B170000C3D42 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		463E61382D328ED7000E255C /* Debug */ = {
@@ -343,6 +438,60 @@
 			};
 			name = Release;
 		};
+		46C64C862D46B170000C3D42 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VA87NRGXNA;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TimeLeftWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TimeLeftWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "group12.ios-24.Calendar.TimeLeftWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		46C64C872D46B170000C3D42 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VA87NRGXNA;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TimeLeftWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TimeLeftWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "group12.ios-24.Calendar.TimeLeftWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -355,11 +504,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		463E613A2D328ED7000E255C /* Build configuration list for PBXNativeTarget "Calendar_1" */ = {
+		463E613A2D328ED7000E255C /* Build configuration list for PBXNativeTarget "Unlock Fit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				463E613B2D328ED7000E255C /* Debug */,
 				463E613C2D328ED7000E255C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		46C64C852D46B170000C3D42 /* Build configuration list for PBXNativeTarget "TimeLeftWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46C64C862D46B170000C3D42 /* Debug */,
+				46C64C872D46B170000C3D42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
