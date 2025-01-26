@@ -140,6 +140,8 @@ struct SaveToFireStore {
             }
         }.resume()
     }
+    
+
 
     }
    

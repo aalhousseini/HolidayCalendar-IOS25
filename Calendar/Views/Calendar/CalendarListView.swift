@@ -18,7 +18,8 @@ struct CalendarListView: View {
     @State private var showAlert: Bool = false // Track alert visibility
     @State private var alertMessage: String = ""
     @State private var alertTitle: String = ""
-    
+    @State private var showThankYouMessage = false
+
     var body: some View {
         NavigationView {
             VStack {
@@ -73,7 +74,42 @@ struct CalendarListView: View {
                         }
                     }
                 }
-            } .alert(isPresented: $showAlert) {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button(action: {
+                       FirebaseAuthAPI().sendLikeFeedback{ result in
+                                switch result {
+                                case .success:
+                                    showThankYouMessage = true
+                                                // Hide the message after 3 seconds
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    showThankYouMessage = false
+                                                }
+                                    print("Feedback sent successfully!")
+                                case .failure(let error):
+                                    print("Error sending feedback: \(error.localizedDescription)")
+                                }
+                            }
+                        }) {
+                        ZStack {
+                        Circle()
+                                    .fill(Color.blue)
+                                    .frame(width: 60, height: 60)
+                                    Image(systemName: "hand.thumbsup.fill")
+                                    .foregroundColor(.white)
+                                    .font(.title)
+                                            }
+                                        }
+                                        .padding()
+                                        .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
+                                    
+                }
+                if showThankYouMessage {
+                    ThankYou(message: "Thank you for liking the content!")
+                }
+            }
+            .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text(alertTitle),
                     message: Text(alertMessage),
@@ -162,6 +198,8 @@ struct CalendarListView: View {
             }
         }
     }
+
+
     
     private func handleImport(fileUrl: [URL]) {
         do {

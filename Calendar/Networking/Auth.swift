@@ -19,6 +19,13 @@ struct FirebaseAuthAPI {
         let email :String
         let name :String
     }
+    
+    private func saveTokenToUserDefaults(idToken: String, userId: String) {
+        UserDefaults.standard.set(idToken, forKey: "idToken")
+        UserDefaults.standard.set(userId, forKey: "userId")
+        UserDefaults.standard.synchronize()
+    }
+
 
     func signUp(email: String, password: String, completion: @escaping (Result<(idToken: String, userId: String), Error>) -> Void) {
         let url = URL(string: "\(baseURL):signUp?key=\(apiKey)")!
@@ -73,6 +80,9 @@ struct FirebaseAuthAPI {
                     if let idToken = json["idToken"] as? String,
                        let userId = json["localId"] as? String {
                         completion(.success((idToken: idToken, userId: userId)))
+                        UserDefaults.standard.set(idToken, forKey: "idToken")
+                        UserDefaults.standard.set(userId, forKey: "userId")
+                        UserDefaults.standard.synchronize()
                     } else if let error = json["error"] as? [String: Any], let errorMsg = error["message"] as? String {
                         let customMessagError = self.createCustomErrorMessage(errorMsg)
                         completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: customMessagError])))
@@ -110,4 +120,65 @@ struct FirebaseAuthAPI {
             return "An error occurred. Please try again later."
         }
     }
+    func sendLikeFeedback(completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let idToken = UserDefaults.standard.string(forKey: "idToken"),
+              let userId = UserDefaults.standard.string(forKey: "userId") else {
+            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not logged in"])))
+            return
+        }
+        
+        let firestoreURL = "https://firestore.googleapis.com/v1/projects/ios-auth-f7bc2/databases/(default)/documents/feedback/\(userId)"
+        guard let url = URL(string: firestoreURL) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer \(idToken)", forHTTPHeaderField: "Authorization")
+
+        let firestoreData: [String: Any] = [
+            "fields": [
+                "feedbackType": ["stringValue": "like"],
+                "timestamp": ["timestampValue": ISO8601DateFormatter().string(from: Date())],
+                "uid": ["stringValue": userId]
+            ]
+        ]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: firestoreData)
+            print("Firestore Like Feedback Request Body: \(firestoreData)")
+        } catch {
+            completion(.failure(error))
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Network Error: \(error.localizedDescription)")
+                completion(.failure(error))
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("No HTTP Response")
+                completion(.failure(NSError(domain: "No HTTP Response", code: 0, userInfo: nil)))
+                return
+            }
+
+            print("Response Code: \(httpResponse.statusCode)")
+
+            if let data = data, let responseBody = String(data: data, encoding: .utf8) {
+                print("Response Body: \(responseBody)")
+            }
+
+            if httpResponse.statusCode == 200 || httpResponse.statusCode == 204 {
+                completion(.success(()))
+            } else {
+                completion(.failure(NSError(domain: "Firestore Error", code: httpResponse.statusCode, userInfo: nil)))
+            }
+        }.resume()
+    }
+
 }
