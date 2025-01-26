@@ -196,37 +196,27 @@ struct WelcomePage: View {
                             .padding()
                             .foregroundColor(.white)
                         HStack {
-                            Button(action :{
-                            })
-                            {
-                                NavigationLink(destination: SignUP()){
-                                    Text("Sign Up")
-                                        .frame(width: 150, height: 50)
-                                        .background(RoundedRectangle(cornerRadius: 10)
-                                            .fill(Color.blue))
-                                        .foregroundColor(.white)
-                                        .padding()
-                                }
-                                
-                                
-                            } .buttonStyle(PlainButtonStyle())
-                                .onHover { isHovering in
-                                    if isHovering {
-                                        
-                                    }
-                                    
-                                }
-                            Button(action :{})
-                            {
-                                Text("Log In")
+                            Button {
+                                firstLaunch = false // Update firstLaunch
+                            } label: {
+                                Text("Sign Up")
                                     .frame(width: 150, height: 50)
-                                    .background(RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.blue))
+                                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
                                     .foregroundColor(.white)
                                     .padding()
-                            } .buttonStyle(PlainButtonStyle())
-                            
+                            }
+
+                            Button {
+                                firstLaunch = false // Update firstLaunch
+                            } label: {
+                                Text("Log In")
+                                    .frame(width: 150, height: 50)
+                                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
+                                    .foregroundColor(.white)
+                                    .padding()
+                            }
                         }
+
                         .padding(.vertical, 50)
                     }
                 }

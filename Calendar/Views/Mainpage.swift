@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct Mainpage: View {
-    @AppStorage("firstLaunch")  var firstLaunch = false
+    @AppStorage("firstLaunch")  var firstLaunch = true
     @State private var selectedTab: Int = 0
     
     var body: some View {
-//        if firstLaunch {
-//            WelcomePage()
-//        } else {
+        if firstLaunch {
+            WelcomePage()
+        } else {
         TabView(selection: $selectedTab) {
                Home()
                    .tabItem {
@@ -39,7 +39,7 @@ struct Mainpage: View {
            .preferredColorScheme(.dark)
         }
     }
-//}
+}
 
 #Preview {
     Mainpage()

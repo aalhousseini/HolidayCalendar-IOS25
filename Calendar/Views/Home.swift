@@ -60,7 +60,7 @@ struct Home: View {
                     .frame(height: 50)
                 Button {
                     isLoggedIn = false
-                    firstLaunch = true
+                    UserDefaults.standard.set(true, forKey: "firstLaunch")
                 } label: {
                     Text("Logout")
                         .font(.custom("Georgia", size: 22))

@@ -7,70 +7,119 @@
 
 import Foundation
 import UserNotifications
-
+//
+//func exportCalendar(calendar: CalendarModel) -> Void {
+//    do {
+//        var calendarToEncode = CalendarCodable()
+//        calendarToEncode.name = calendar.name
+//        calendarToEncode.startDate = calendar.startDate
+//        calendarToEncode.doors = []
+//        
+//        for door in calendar.doors {
+//            var doorToEncode = DoorCodable()
+//            doorToEncode.number = door.number
+//            doorToEncode.unlockDate = door.unlockDate
+//            doorToEncode.challenge = door.challenge
+//            doorToEncode.isCompleted = false
+//            
+//            calendarToEncode.doors!.append(doorToEncode)
+//        }
+//        
+//        let jsonEncoder = JSONEncoder()
+//        let jsonData = try jsonEncoder.encode(calendarToEncode)
+//    
+//        let docFolder = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+//        let destinationUrl = docFolder.appendingPathComponent("\(calendar.id)_export.json")
+//
+//        try jsonData.write(to: destinationUrl)
+//    } catch {
+//        fatalError(error.localizedDescription)
+//    }
+//}
 func exportCalendar(calendar: CalendarModel) -> Void {
     do {
         var calendarToEncode = CalendarCodable()
         calendarToEncode.name = calendar.name
         calendarToEncode.startDate = calendar.startDate
         calendarToEncode.doors = []
-        
+
         for door in calendar.doors {
             var doorToEncode = DoorCodable()
             doorToEncode.number = door.number
             doorToEncode.unlockDate = door.unlockDate
             doorToEncode.challenge = door.challenge
-            doorToEncode.isCompleted = false
+            doorToEncode.isCompleted = door.isCompleted
             
+            // Encode image data as Base64 string
+            if let imageData = door.image {
+                doorToEncode.image = imageData.base64EncodedString()
+            }
+            
+            if let quote = door.quote {
+                doorToEncode.quote = quote
+            }
+
             calendarToEncode.doors!.append(doorToEncode)
         }
-        
+
         let jsonEncoder = JSONEncoder()
         let jsonData = try jsonEncoder.encode(calendarToEncode)
-    
+
         let docFolder = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        let destinationUrl = docFolder.appendingPathComponent("\(calendar.id)_export.json")
+        let destinationUrl = docFolder.appendingPathComponent("\(calendar.name)_\(calendar.id)_export.json")
 
         try jsonData.write(to: destinationUrl)
+
+        print("Calendar exported to \(destinationUrl)")
     } catch {
-        fatalError(error.localizedDescription)
+        print("Error exporting calendar: \(error.localizedDescription)")
     }
 }
 
 func importCalendar(url: URL) -> CalendarModel? {
     do {
         let data = try Data(contentsOf: url)
-
         let object = try JSONDecoder().decode(CalendarCodable.self, from: data)
         
         guard let newCalendarName = object.name, let newCalendarStartDate = object.startDate, let newCalendarDoors = object.doors else {
-            fatalError()
+            print("Invalid calendar data.")
+            return nil
         }
-        
+
         let newCalendarModel = CalendarModel(name: newCalendarName, startDate: newCalendarStartDate)
         newCalendarModel.doors = []
         newCalendarModel.isImported = true
-        
+
         for door in newCalendarDoors {
-            guard let newNumner = door.number, let newUnlockDate = door.unlockDate, let newChallange = door.challenge else {
-                fatalError()
+            guard let newNumber = door.number, let newUnlockDate = door.unlockDate, let newChallenge = door.challenge else {
+                print("Invalid door data.")
+                return nil
             }
-            
-            let newDoorModel = DoorModel(number: newNumner, unlockDate: newUnlockDate, challenge: newChallange)
+
+            let newDoorModel = DoorModel(number: newNumber, unlockDate: newUnlockDate, challenge: newChallenge)
             newDoorModel.calendar = newCalendarModel
             newDoorModel.isImported = true
-            
+
+            // Decode Base64 string back into Data
+            if let imageBase64 = door.image, let imageData = Data(base64Encoded: imageBase64) {
+                newDoorModel.image = imageData
+            }
+            if let quote = door.quote {
+                newDoorModel.quote = quote
+            }
+
             newCalendarModel.doors.append(newDoorModel)
         }
-        
+
+        print("Calendar successfully imported: \(newCalendarModel.name)")
         return newCalendarModel
     } catch {
-        
+        print("Error importing calendar: \(error.localizedDescription)")
     }
-    
     return nil
-    
 }
+
+
 
 func requestNotificationPermission() {
     let center = UNUserNotificationCenter.current()

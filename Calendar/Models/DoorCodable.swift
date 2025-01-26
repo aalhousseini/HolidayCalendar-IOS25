@@ -12,4 +12,6 @@ struct DoorCodable: Codable {
     var unlockDate: Date?
     var isCompleted: Bool?
     var challenge: String?
+    var image: String?
+    var quote: String?
 }
